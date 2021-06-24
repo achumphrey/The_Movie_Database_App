@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.TVCurrentlyAiring">
+
+    <TextView
+        android:id="@+id/fragTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:typeface="normal"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#0323F3"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_currently_airing" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyViewTvCurAiring"
+        android:layout_marginTop="40dp" />
+
+    <ProgressBar
+        android:id="@+id/tvProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/tvErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        tools:text="Error Message" />
+
+</FrameLayout>

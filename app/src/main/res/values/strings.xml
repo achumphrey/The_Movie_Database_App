@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">The Movie Database App</string>
+    <string name="the_screen_title">The Screen Title</string>
+    <string name="tv_rating">TV Rating</string>
+    <string name="date_first_aired">Date First Aired</string>
+    <string name="tv_name">TV Name</string>
+    <string name="tv_currently_airing">TV Currently Airing</string>
+    <string name="tv_airing_today">TV Airing Today</string>
+</resources>
