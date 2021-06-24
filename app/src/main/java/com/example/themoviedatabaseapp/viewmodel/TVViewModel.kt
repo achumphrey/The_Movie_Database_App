@@ -2,7 +2,7 @@ package com.example.themoviedatabaseapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
+import com.example.themoviedatabaseapp.model.TVDetails.TodayTVShowDetails
 import com.example.themoviedatabaseapp.model.today.Result
 import com.example.themoviedatabaseapp.repository.TVRepo
 import io.reactivex.disposables.CompositeDisposable
@@ -12,7 +12,7 @@ class TVViewModel(private val repo: TVRepo) : ViewModel() {
 
     private val disposable: CompositeDisposable = CompositeDisposable()
     private val showTodayTVList: MutableLiveData<List<Result>> = MutableLiveData()
-    private val showTVDetails: MutableLiveData<TVShowDetails> = MutableLiveData()
+    private val showTVDetails: MutableLiveData<TodayTVShowDetails> = MutableLiveData()
     private val showCurrentTVList: MutableLiveData<List
     <com.example.themoviedatabaseapp.model.current.Result>> = MutableLiveData()
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
@@ -111,7 +111,7 @@ class TVViewModel(private val repo: TVRepo) : ViewModel() {
         return errorMessage
     }
 
-    fun tvDetails(): MutableLiveData<TVShowDetails>{
+    fun tvDetails(): MutableLiveData<TodayTVShowDetails>{
         return showTVDetails
     }
 

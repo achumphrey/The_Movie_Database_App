@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.themoviedatabaseapp.fragments.TVCurrentlyAiring.Companion.INTENT_MESSAGE
-import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
+import com.example.themoviedatabaseapp.model.TVDetails.TodayTVShowDetails
 import com.example.themoviedatabaseapp.remote.WebClient
 import com.example.themoviedatabaseapp.remote.WebServices
 import com.example.themoviedatabaseapp.repository.TVRepo
@@ -78,14 +78,19 @@ class TVDetailsActivity : AppCompatActivity() {
         detailLastEpisodeToAir = findViewById(R.id.detailLastEpiToAir)
     }
 
-    private fun populateView(item: TVShowDetails){
+    private fun populateView(item: TodayTVShowDetails){
         detailName.text = String.format("Name: ${item.name}")
         detailLang.text = String.format("Language: ${item.originalLanguage}")
         detailGenre.text = String.format("Genre: ${item.genres[0].name}")
         detailFirstAirDate.text = String.format("First Air Date: ${item.firstAirDate}")
         detailOverview.text = String.format("Overview:\n${item.overview}")
-        detailProCountry.text = String.format("Production Country: ${item.productionCountries[0].name}")
         detailLastAirDate.text = String.format("Last Air Date: ${item.lastAirDate}")
         detailLastEpisodeToAir.text = String.format("Last Episode To Air: ${item.lastEpisodeToAir.name}")
+
+        if(item.productionCountries.isEmpty()){
+            detailProCountry.text = String.format("Production Country: No Data")
+        }else{
+            detailProCountry.text = String.format("Production Country: ${item.productionCountries.get(0).name}")
+        }
     }
 }

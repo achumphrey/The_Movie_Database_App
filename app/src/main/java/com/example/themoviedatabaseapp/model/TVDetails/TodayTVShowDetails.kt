@@ -3,7 +3,7 @@ package com.example.themoviedatabaseapp.model.TVDetails
 
 import com.google.gson.annotations.SerializedName
 
-data class TVShowDetails(
+data class TodayTVShowDetails(
 
     @SerializedName("first_air_date")
     val firstAirDate: String,

@@ -1,10 +1,9 @@
 package com.example.themoviedatabaseapp.repository
 
-import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
+import com.example.themoviedatabaseapp.model.TVDetails.TodayTVShowDetails
 import com.example.themoviedatabaseapp.model.current.CurrentTVShowList
 import com.example.themoviedatabaseapp.model.today.TodayTVShowList
 import com.example.themoviedatabaseapp.remote.WebServices
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,7 +22,7 @@ class TVRepoImpl(private val webServices: WebServices): TVRepo {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getTVDetail(id: Int): Single<TVShowDetails> {
+    override fun getTVDetail(id: Int): Single<TodayTVShowDetails> {
         return webServices.getTVDetails(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

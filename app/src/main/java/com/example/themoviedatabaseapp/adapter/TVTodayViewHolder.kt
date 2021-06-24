@@ -1,4 +1,34 @@
 package com.example.themoviedatabaseapp.adapter
 
-class TVTodayViewHolder {
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.themoviedatabaseapp.R
+import com.example.themoviedatabaseapp.model.today.Result
+import com.squareup.picasso.Picasso
+
+class TVTodayViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+
+    private val tvTdImage: ImageView = itemView.findViewById(R.id.tdTvshowImage)
+    private val tvTdName: TextView = itemView.findViewById(R.id.tdTvshowName)
+    private val tvTdFirstAirDate: TextView = itemView.findViewById(R.id.tdDateFirstAired)
+    private val tvTdRating: TextView = itemView.findViewById(R.id.tdTvshowRating)
+
+    fun bindItem(tvTdItem: Result, listener: TVTodayListener ){
+
+        val httpPrefix = "https://www.themoviedb.org/t/p/w220_and_h330_face"
+        tvTdName.text = tvTdItem.name
+        tvTdRating.text = tvTdItem.voteAverage.toString()
+        tvTdFirstAirDate.text = tvTdItem.firstAirDate
+        Picasso.get()
+            .load(httpPrefix + tvTdItem.posterPath)
+            .error(R.drawable.ic_launcher_background)
+            .into(tvTdImage)
+
+        itemView.setOnClickListener{
+            listener.TVTodItemClickListener(tvTdItem)
+        }
+
+    }
 }

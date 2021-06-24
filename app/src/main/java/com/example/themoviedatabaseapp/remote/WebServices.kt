@@ -1,6 +1,6 @@
 package com.example.themoviedatabaseapp.remote
 
-import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
+import com.example.themoviedatabaseapp.model.TVDetails.TodayTVShowDetails
 import com.example.themoviedatabaseapp.model.current.CurrentTVShowList
 import com.example.themoviedatabaseapp.model.today.TodayTVShowList
 import io.reactivex.Single
@@ -15,6 +15,6 @@ interface WebServices {
     fun getTodayTVList(): Single<TodayTVShowList>
 
     @GET(Constants.TV_DETAILS_ENDPOINT_URL)
-    fun getTVDetails(@Path("tv_id") tvId: Int): Single<TVShowDetails>
+    fun getTVDetails(@Path("tv_id") tvId: Int): Single<TodayTVShowDetails>
 
 }

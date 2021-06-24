@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TV_Airing_Today">
+    tools:context=".fragments.TVAiringToday">
 
     <TextView
         android:id="@+id/fragTitle"
@@ -21,7 +21,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyViewTvAiringToday"
-        android:layout_marginTop="40dp"
-        />
+        android:layout_marginTop="40dp" />
+
+    <ProgressBar
+        android:id="@+id/tvProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/tvErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        tools:text="Error Message" />
+
 
 </FrameLayout>

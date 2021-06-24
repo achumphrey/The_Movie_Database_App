@@ -6,18 +6,27 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.themoviedatabaseapp.fragments.TV_Airing_Today
+import com.example.themoviedatabaseapp.fragments.FirstScreen
+import com.example.themoviedatabaseapp.fragments.TVAiringToday
 import com.example.themoviedatabaseapp.fragments.TVCurrentlyAiring
 
 
 class MainActivity : AppCompatActivity() {
 
     var fragTVCurAiring : TVCurrentlyAiring? = null
-    var fragTVAiringToday : TV_Airing_Today? = null
+    var fragTVAiringToday : TVAiringToday? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val firstFrag = FirstScreen()
+        val fragMgr: FragmentManager = supportFragmentManager
+        val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
+        fragTrans.replace(R.id.fragContainer, firstFrag)
+        fragTrans.addToBackStack(null)
+        fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        fragTrans.commit()
 
     }
 
@@ -41,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.tvAiringToday -> {
-                fragTVAiringToday = TV_Airing_Today()
+                fragTVAiringToday = TVAiringToday()
                 val fragMgr: FragmentManager = supportFragmentManager
                 val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
                 fragTrans.replace(R.id.fragContainer, fragTVAiringToday!!, "Air_Today_Frag")
