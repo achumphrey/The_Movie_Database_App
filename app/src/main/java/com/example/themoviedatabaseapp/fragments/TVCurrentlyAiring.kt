@@ -1,5 +1,6 @@
 package com.example.themoviedatabaseapp.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
+import com.example.themoviedatabaseapp.TVDetailsActivity
 import com.example.themoviedatabaseapp.adapter.TVCurAdapter
 import com.example.themoviedatabaseapp.adapter.TVCurListener
 import com.example.themoviedatabaseapp.model.current.Result
@@ -33,10 +34,13 @@ class TVCurrentlyAiring : Fragment() {
  //   private lateinit var tvViewModelFactory: ViewModelFactory
     private lateinit var tvViewModel: TVViewModel
     private lateinit var tvCurAdapter: TVCurAdapter
- //   companion object{const val INTENT_MESSAGE = "message"}
+    companion object{const val INTENT_MESSAGE = "message"}
+
     private val tvCurClickListener: TVCurListener = object : TVCurListener {
         override fun tvCurItemClickListener(itemList: Result) {
-            Toast.makeText (context, "We clicked an item", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, TVDetailsActivity::class.java)
+            intent.putExtra(INTENT_MESSAGE, itemList.id)
+            startActivity(intent)
         }
     }
 

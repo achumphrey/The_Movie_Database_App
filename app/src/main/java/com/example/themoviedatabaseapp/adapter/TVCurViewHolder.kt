@@ -17,7 +17,7 @@ class TVCurViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     fun bindItem(tvCurItem: Result, listener: TVCurListener ){
 
-        val httpPrefix: String = "https://www.themoviedb.org/t/p/w220_and_h330_face"
+        val httpPrefix = "https://www.themoviedb.org/t/p/w220_and_h330_face"
         tvCurName.text = tvCurItem.name
         tvCurRating.text = tvCurItem.voteAverage.toString()
         tvCurFirstAirDate.text = tvCurItem.firstAirDate

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 val fragMgr: FragmentManager = supportFragmentManager
                 val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
                 fragTrans.replace(R.id.fragContainer, fragTVCurAiring!!, "Cur_Air_Frag")
-                fragTrans.addToBackStack(null)
+                fragTrans.addToBackStack(fragTVCurAiring!!.tag)
                 fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragTrans.commit()
             }
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 val fragMgr: FragmentManager = supportFragmentManager
                 val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
                 fragTrans.replace(R.id.fragContainer, fragTVAiringToday!!, "Air_Today_Frag")
-                fragTrans.addToBackStack(null)
+                fragTrans.addToBackStack(fragTVAiringToday!!.tag)
                 fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragTrans.commit()
 

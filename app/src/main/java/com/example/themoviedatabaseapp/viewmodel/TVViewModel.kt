@@ -2,6 +2,7 @@ package com.example.themoviedatabaseapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
 import com.example.themoviedatabaseapp.model.today.Result
 import com.example.themoviedatabaseapp.repository.TVRepo
 import io.reactivex.disposables.CompositeDisposable
@@ -11,6 +12,7 @@ class TVViewModel(private val repo: TVRepo) : ViewModel() {
 
     private val disposable: CompositeDisposable = CompositeDisposable()
     private val showTodayTVList: MutableLiveData<List<Result>> = MutableLiveData()
+    private val showTVDetails: MutableLiveData<TVShowDetails> = MutableLiveData()
     private val showCurrentTVList: MutableLiveData<List
     <com.example.themoviedatabaseapp.model.current.Result>> = MutableLiveData()
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
@@ -50,10 +52,10 @@ class TVViewModel(private val repo: TVRepo) : ViewModel() {
         disposable.add(
             repo.getTVToday()
                 .subscribe({
-                    if (it.results.isEmpty()){
+                    if (it.results.isEmpty()) {
                         errorMessage.value = "No Data Found"
                         loadingState.value = LoadingState.ERROR
-                    }else{
+                    } else {
                         showTodayTVList.value = it.results
                         loadingState.value = LoadingState.SUCCESS
                     }
@@ -66,6 +68,28 @@ class TVViewModel(private val repo: TVRepo) : ViewModel() {
                     }
                     loadingState.value = LoadingState.ERROR
                 })
+        )
+    }
+
+    fun fetchTVDetails(id: Int) {
+
+        disposable.add(
+            repo.getTVDetail(id).subscribe({
+                if (it == null) {
+                    errorMessage.value = "No Data Found"
+                    loadingState.value = LoadingState.ERROR
+                } else {
+                    loadingState.value = LoadingState.SUCCESS
+                    showTVDetails.value = it
+                }
+            }, {
+                it.printStackTrace()
+                when (it) {
+                    is UnknownHostException -> errorMessage.value = "No Network!"
+                    else -> errorMessage.value = it.localizedMessage
+                }
+                loadingState.value = LoadingState.ERROR
+            })
         )
     }
 
@@ -85,6 +109,10 @@ class TVViewModel(private val repo: TVRepo) : ViewModel() {
 
     fun errorMessage(): MutableLiveData<String> {
         return errorMessage
+    }
+
+    fun tvDetails(): MutableLiveData<TVShowDetails>{
+        return showTVDetails
     }
 
     override fun onCleared() {
