@@ -7,8 +7,9 @@ import com.example.themoviedatabaseapp.remote.WebServices
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class TVRepoImpl(private val webServices: WebServices): TVRepo {
+class TVRepoImpl @Inject constructor(private val webServices: WebServices): TVRepo {
 
     override fun getTVCurrent(): Single<CurrentTVShowList> {
         return webServices.getCurrentTVList()

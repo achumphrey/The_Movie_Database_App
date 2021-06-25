@@ -1,20 +1,18 @@
 package com.example.themoviedatabaseapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
+import com.example.themoviedatabaseapp.di.TVShowApp
 import com.example.themoviedatabaseapp.fragments.TVCurrentlyAiring.Companion.INTENT_MESSAGE
 import com.example.themoviedatabaseapp.model.TVDetails.TodayTVShowDetails
-import com.example.themoviedatabaseapp.remote.WebClient
-import com.example.themoviedatabaseapp.remote.WebServices
-import com.example.themoviedatabaseapp.repository.TVRepo
-import com.example.themoviedatabaseapp.repository.TVRepoImpl
-import com.example.themoviedatabaseapp.viewmodel.TVViewModel
-import com.example.themoviedatabaseapp.viewmodel.ViewModelFactory
+import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
+import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
 class TVDetailsActivity : AppCompatActivity() {
 
@@ -28,30 +26,27 @@ class TVDetailsActivity : AppCompatActivity() {
     private lateinit var detailLastAirDate: TextView
     private lateinit var detailLastEpisodeToAir: TextView
 
-    private lateinit var repo: TVRepo
-    private lateinit var webService: WebServices
-    private lateinit var tvViewModel: TVViewModel
+    @Inject
+    lateinit var tvShowViewModelFactory: TVShowViewModelFactory
+    private lateinit var tvShowViewModel: TVShowViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_t_v_details)
 
+        TVShowApp.getTVShowComponent().inject(this)
+
         initializeViews()
 
         val id: Int = intent.getIntExtra(INTENT_MESSAGE, 0)
-        Log.i("Passed ID", id.toString())
 
-        webService = WebClient().retrofitInstance
-        repo = TVRepoImpl(webService)
+        tvShowViewModel =
+            ViewModelProviders.of(this, tvShowViewModelFactory)
+                .get(TVShowViewModel::class.java)
 
-        tvViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(repo)
-        ).get(TVViewModel::class.java)
+        tvShowViewModel.fetchTVDetails(id)
 
-        tvViewModel.fetchTVDetails(id)
-
-        tvViewModel.tvDetails().observe(this, {
+        tvShowViewModel.tvDetails().observe(this, {
 
             Log.i("TV Details:", it.name)
 
@@ -62,11 +57,10 @@ class TVDetailsActivity : AppCompatActivity() {
                 .into(detailImage)
 
             populateView(it)
-
         })
     }
 
-    private fun initializeViews(){
+    private fun initializeViews() {
         detailImage = findViewById(R.id.detailImageView)
         detailName = findViewById(R.id.detailName)
         detailLang = findViewById(R.id.detailLang)
@@ -78,19 +72,21 @@ class TVDetailsActivity : AppCompatActivity() {
         detailLastEpisodeToAir = findViewById(R.id.detailLastEpiToAir)
     }
 
-    private fun populateView(item: TodayTVShowDetails){
+    private fun populateView(item: TodayTVShowDetails) {
         detailName.text = String.format("Name: ${item.name}")
         detailLang.text = String.format("Language: ${item.originalLanguage}")
         detailGenre.text = String.format("Genre: ${item.genres[0].name}")
         detailFirstAirDate.text = String.format("First Air Date: ${item.firstAirDate}")
         detailOverview.text = String.format("Overview:\n${item.overview}")
         detailLastAirDate.text = String.format("Last Air Date: ${item.lastAirDate}")
-        detailLastEpisodeToAir.text = String.format("Last Episode To Air: ${item.lastEpisodeToAir.name}")
+        detailLastEpisodeToAir.text =
+            String.format("Last Episode To Air: ${item.lastEpisodeToAir.name}")
 
-        if(item.productionCountries.isEmpty()){
+        if (item.productionCountries.isEmpty()) {
             detailProCountry.text = String.format("Production Country: No Data")
-        }else{
-            detailProCountry.text = String.format("Production Country: ${item.productionCountries.get(0).name}")
+        } else {
+            detailProCountry.text =
+                String.format("Production Country: ${item.productionCountries.get(0).name}")
         }
     }
 }

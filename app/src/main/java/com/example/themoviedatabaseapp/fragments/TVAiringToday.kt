@@ -2,39 +2,40 @@ package com.example.themoviedatabaseapp.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.TVDetailsActivity
 import com.example.themoviedatabaseapp.adapter.TVTodayAdapter
 import com.example.themoviedatabaseapp.adapter.TVTodayListener
+import com.example.themoviedatabaseapp.di.TVShowApp
 import com.example.themoviedatabaseapp.model.today.Result
-import com.example.themoviedatabaseapp.remote.WebClient
-import com.example.themoviedatabaseapp.remote.WebServices
-import com.example.themoviedatabaseapp.repository.TVRepo
-import com.example.themoviedatabaseapp.repository.TVRepoImpl
-import com.example.themoviedatabaseapp.viewmodel.TVViewModel
-import com.example.themoviedatabaseapp.viewmodel.ViewModelFactory
+import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
+import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
+import javax.inject.Inject
 
 
 class TVAiringToday : Fragment() {
 
-    private lateinit var repo: TVRepo
-    private lateinit var webService: WebServices
     private lateinit var tvTdRecyclerView: RecyclerView
     private lateinit var tvProgressBar: ProgressBar
     private lateinit var tvErrorMessage: TextView
-    //   private lateinit var tvViewModelFactory: ViewModelFactory
-    private lateinit var tvViewModel: TVViewModel
+
+    @Inject
+    lateinit var tvShowViewModelFactory: TVShowViewModelFactory
+    private lateinit var tvShowViewModel: TVShowViewModel
     private lateinit var tvTdAdapter: TVTodayAdapter
-    companion object{const val INTENT_MESSAGE = "message"}
+
+    companion object {
+        const val INTENT_MESSAGE = "message"
+    }
 
     private val tvTdClickListener: TVTodayListener = object : TVTodayListener {
 
@@ -48,15 +49,13 @@ class TVAiringToday : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        webService = WebClient().retrofitInstance
-        repo = TVRepoImpl(webService)
+        TVShowApp.getTVShowComponent().inject(this)
 
-        tvViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(repo)
-        ).get(TVViewModel::class.java)
+        tvShowViewModel =
+            ViewModelProviders.of(this, tvShowViewModelFactory)
+                .get(TVShowViewModel::class.java)
 
-        tvViewModel.TVTodayFromViewModel()
+        tvShowViewModel.TVTodayFromViewModel()
     }
 
     override fun onCreateView(
@@ -67,7 +66,8 @@ class TVAiringToday : Fragment() {
         return inflater.inflate(
             R.layout.fragment_t_v__airing__today,
             container,
-            false)
+            false
+        )
     }
 
     override fun onStart() {
@@ -82,20 +82,20 @@ class TVAiringToday : Fragment() {
         tvErrorMessage = requireView().findViewById(R.id.tvErrorMessage)
         tvProgressBar = requireView().findViewById(R.id.tvProgressBar)
 
-        tvViewModel.loadingState.observe(viewLifecycleOwner, {
+        tvShowViewModel.loadingState.observe(viewLifecycleOwner, {
             when (it) {
-                TVViewModel.LoadingState.LOADING -> displayProgressbar()
-                TVViewModel.LoadingState.SUCCESS -> displayTVList()
-                TVViewModel.LoadingState.ERROR -> displayErrorMessage()
+                TVShowViewModel.LoadingState.LOADING -> displayProgressbar()
+                TVShowViewModel.LoadingState.SUCCESS -> displayTVList()
+                TVShowViewModel.LoadingState.ERROR -> displayErrorMessage()
                 else -> displayErrorMessage()
             }
         })
 
-        tvViewModel.TodayTVLiveData().observe(viewLifecycleOwner, {
+        tvShowViewModel.TodayTVLiveData().observe(viewLifecycleOwner, {
             tvTdAdapter.updateTvTdList(it)
         })
 
-        tvViewModel.errorMessage().observe(viewLifecycleOwner, {
+        tvShowViewModel.errorMessage().observe(viewLifecycleOwner, {
             tvErrorMessage.text = it
         })
     }

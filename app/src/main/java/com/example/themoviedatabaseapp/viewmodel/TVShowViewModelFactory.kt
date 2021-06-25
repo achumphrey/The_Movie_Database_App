@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.themoviedatabaseapp.repository.TVRepo
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(private val repo: TVRepo): ViewModelProvider.Factory {
+class TVShowViewModelFactory(private val repo: TVRepo): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return TVViewModel(repo) as T
+        return TVShowViewModel(repo) as T
     }
 }

@@ -13,8 +13,8 @@ import com.example.themoviedatabaseapp.fragments.TVCurrentlyAiring
 
 class MainActivity : AppCompatActivity() {
 
-    var fragTVCurAiring : TVCurrentlyAiring? = null
-    var fragTVAiringToday : TVAiringToday? = null
+    var fragTVCurAiring: TVCurrentlyAiring? = null
+    var fragTVAiringToday: TVAiringToday? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
+        when (item.itemId) {
             R.id.tvcurAiring -> {
                 fragTVCurAiring = TVCurrentlyAiring()
                 val fragMgr: FragmentManager = supportFragmentManager

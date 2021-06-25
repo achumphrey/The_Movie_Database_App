@@ -8,7 +8,7 @@ import com.example.themoviedatabaseapp.repository.TVRepo
 import io.reactivex.disposables.CompositeDisposable
 import java.net.UnknownHostException
 
-class TVViewModel(private val repo: TVRepo) : ViewModel() {
+class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
 
     private val disposable: CompositeDisposable = CompositeDisposable()
     private val showTodayTVList: MutableLiveData<List<Result>> = MutableLiveData()
