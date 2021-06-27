@@ -2,13 +2,15 @@ package com.example.themoviedatabaseapp
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.example.themoviedatabaseapp.di.TVShowApp
 import com.example.themoviedatabaseapp.fragments.TVCurrentlyAiring.Companion.INTENT_MESSAGE
-import com.example.themoviedatabaseapp.model.TVDetails.TodayTVShowDetails
+import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
 import com.squareup.picasso.Picasso
@@ -25,6 +27,8 @@ class TVDetailsActivity : AppCompatActivity() {
     private lateinit var detailProCountry: TextView
     private lateinit var detailLastAirDate: TextView
     private lateinit var detailLastEpisodeToAir: TextView
+    private lateinit var tvDetailsErrorMessage: TextView
+    private lateinit var tvDetailsProgressBar: ProgressBar
 
     @Inject
     lateinit var tvShowViewModelFactory: TVShowViewModelFactory
@@ -40,23 +44,34 @@ class TVDetailsActivity : AppCompatActivity() {
 
         val id: Int = intent.getIntExtra(INTENT_MESSAGE, 0)
 
-        tvShowViewModel =
-            ViewModelProviders.of(this, tvShowViewModelFactory)
-                .get(TVShowViewModel::class.java)
+    /*    tvShowViewModel = ViewModelProvider(
+            this,
+            tvShowViewModelFactory)
+            .get(TVShowViewModel::class.java)
+*/
+        tvShowViewModel = ViewModelProvider(
+            viewModelStore,
+            tvShowViewModelFactory)
+            .get(TVShowViewModel::class.java)
 
         tvShowViewModel.fetchTVDetails(id)
 
         tvShowViewModel.tvDetails().observe(this, {
-
-            Log.i("TV Details:", it.name)
-
-            val httpPrefix = "https://www.themoviedb.org/t/p/w220_and_h330_face"
-            Picasso.get()
-                .load(httpPrefix + it.posterPath)
-                .error(R.drawable.ic_launcher_background)
-                .into(detailImage)
-
+            Log.i("Details Object: ", it.name)
             populateView(it)
+        })
+
+        tvShowViewModel.errorMessage().observe(this, {
+            tvDetailsErrorMessage.text = it
+        })
+
+        tvShowViewModel.loadingState.observe(this, {
+            when (it) {
+                TVShowViewModel.LoadingState.LOADING -> displayProgressbar()
+                TVShowViewModel.LoadingState.SUCCESS -> displayTVList()
+                TVShowViewModel.LoadingState.ERROR -> displayErrorMessage()
+                else -> displayErrorMessage()
+            }
         })
     }
 
@@ -70,9 +85,11 @@ class TVDetailsActivity : AppCompatActivity() {
         detailProCountry = findViewById(R.id.detailProdCountry)
         detailLastAirDate = findViewById(R.id.detailLastAirDate)
         detailLastEpisodeToAir = findViewById(R.id.detailLastEpiToAir)
+        tvDetailsErrorMessage = findViewById(R.id.tvDetailsErrorMessage)
+        tvDetailsProgressBar = findViewById(R.id.tvDetailsProgressBar)
     }
 
-    private fun populateView(item: TodayTVShowDetails) {
+    private fun populateView(item: TVShowDetails) {
         detailName.text = String.format("Name: ${item.name}")
         detailLang.text = String.format("Language: ${item.originalLanguage}")
         detailGenre.text = String.format("Genre: ${item.genres[0].name}")
@@ -88,5 +105,26 @@ class TVDetailsActivity : AppCompatActivity() {
             detailProCountry.text =
                 String.format("Production Country: ${item.productionCountries.get(0).name}")
         }
+
+        val httpPrefix = "https://www.themoviedb.org/t/p/w220_and_h330_face"
+        Picasso.get()
+            .load(httpPrefix + item.posterPath)
+            .error(R.drawable.ic_launcher_background)
+            .into(detailImage)
+    }
+
+    private fun displayTVList() {
+        tvDetailsErrorMessage.visibility = View.GONE
+        tvDetailsProgressBar.visibility = View.GONE
+    }
+
+    private fun displayErrorMessage() {
+        tvDetailsErrorMessage.visibility = View.VISIBLE
+        tvDetailsProgressBar.visibility = View.GONE
+    }
+
+    private fun displayProgressbar() {
+        tvDetailsProgressBar.visibility = View.VISIBLE
+        tvDetailsErrorMessage.visibility = View.GONE
     }
 }

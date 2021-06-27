@@ -1,6 +1,6 @@
 package com.example.themoviedatabaseapp.repository
 
-import com.example.themoviedatabaseapp.model.TVDetails.TodayTVShowDetails
+import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
 import com.example.themoviedatabaseapp.model.current.CurrentTVShowList
 import com.example.themoviedatabaseapp.model.today.TodayTVShowList
 import com.example.themoviedatabaseapp.remote.WebServices
@@ -23,7 +23,7 @@ class TVRepoImpl @Inject constructor(private val webServices: WebServices): TVRe
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getTVDetail(id: Int): Single<TodayTVShowDetails> {
+    override fun getTVDetail(id: Int): Single<TVShowDetails> {
         return webServices.getTVDetails(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

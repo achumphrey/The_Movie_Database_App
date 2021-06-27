@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
@@ -51,7 +51,7 @@ class TVCurrentlyAiring : Fragment() {
         TVShowApp.getTVShowComponent().inject(this)
 
         tvShowViewModel =
-            ViewModelProviders.of(this, tvShowViewModelFactory)
+            ViewModelProvider(this, tvShowViewModelFactory)
                 .get(TVShowViewModel::class.java)
 
         tvShowViewModel.TVCurrentFromViewModel()

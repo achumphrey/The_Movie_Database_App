@@ -2,7 +2,7 @@ package com.example.themoviedatabaseapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.themoviedatabaseapp.model.TVDetails.TodayTVShowDetails
+import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
 import com.example.themoviedatabaseapp.model.today.Result
 import com.example.themoviedatabaseapp.repository.TVRepo
 import io.reactivex.disposables.CompositeDisposable
@@ -12,7 +12,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
 
     private val disposable: CompositeDisposable = CompositeDisposable()
     private val showTodayTVList: MutableLiveData<List<Result>> = MutableLiveData()
-    private val showTVDetails: MutableLiveData<TodayTVShowDetails> = MutableLiveData()
+    private val showTVDetails: MutableLiveData<TVShowDetails> = MutableLiveData()
     private val showCurrentTVList: MutableLiveData<List
     <com.example.themoviedatabaseapp.model.current.Result>> = MutableLiveData()
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
@@ -42,7 +42,6 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
                     loadingState.value = LoadingState.ERROR
                 })
         )
-
     }
 
     fun TVTodayFromViewModel() {
@@ -72,6 +71,8 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     }
 
     fun fetchTVDetails(id: Int) {
+
+        loadingState.value = LoadingState.LOADING
 
         disposable.add(
             repo.getTVDetail(id).subscribe({
@@ -111,7 +112,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         return errorMessage
     }
 
-    fun tvDetails(): MutableLiveData<TodayTVShowDetails>{
+    fun tvDetails(): MutableLiveData<TVShowDetails>{
         return showTVDetails
     }
 
@@ -119,5 +120,4 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         disposable.dispose()
         super.onCleared()
     }
-
 }

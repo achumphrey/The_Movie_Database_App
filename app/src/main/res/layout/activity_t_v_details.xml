@@ -26,7 +26,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
-        android:text="@string/tv_show_name"
+        tools:text="@string/tv_show_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailImageView" />
@@ -38,7 +38,7 @@
         android:textSize="18sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:text="@string/genre"
+        tools:text="@string/genre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailName" />
@@ -50,7 +50,7 @@
         android:textSize="18sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:text="@string/first_air_date"
+        tools:text="@string/first_air_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailGenre" />
@@ -62,7 +62,7 @@
         android:textSize="18sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:text="@string/original_language"
+        tools:text="@string/original_language"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailFirstAirDate" />
@@ -74,7 +74,7 @@
         android:textSize="18sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:text="@string/last_episode_to_air"
+        tools:text="@string/last_episode_to_air"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailLang" />
@@ -86,7 +86,7 @@
         android:textSize="18sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:text="@string/production_country"
+        tools:text="@string/production_country"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailLastEpiToAir" />
@@ -98,7 +98,7 @@
         android:textSize="18sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:text="@string/last_air_date"
+        tools:text="@string/last_air_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailProdCountry" />
@@ -111,12 +111,37 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/overview"
+        tools:text="@string/overview"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailLastAirDate" />
+
+    <ProgressBar
+        android:id="@+id/tvDetailsProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDetailsErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        tools:text="Error Message"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
