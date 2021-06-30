@@ -53,7 +53,10 @@ class TVCurrentlyAiring : Fragment() {
         tvShowViewModel =
             ViewModelProvider(this, tvShowViewModelFactory)
                 .get(TVShowViewModel::class.java)
+    }
 
+    override fun onResume() {
+        super.onResume()
         tvShowViewModel.TVCurrentFromViewModel()
     }
 
