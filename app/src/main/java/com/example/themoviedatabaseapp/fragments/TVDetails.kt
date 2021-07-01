@@ -1,21 +1,25 @@
-package com.example.themoviedatabaseapp
+package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.di.TVShowApp
+import com.example.themoviedatabaseapp.fragments.TVAiringToday.Companion.BUNDLE_DATA
 import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-class TVDetailsActivity : AppCompatActivity() {
+class TVDetails : Fragment() {
 
     private lateinit var detailImage: ImageView
     private lateinit var detailName: TextView
@@ -35,31 +39,49 @@ class TVDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_t_v_details)
 
         TVShowApp.getTVShowComponent().inject(this)
 
-        initializeViews()
+        val id: Int = arguments?.getInt(BUNDLE_DATA, 0) ?: 0
 
-        val id: Int = intent.getIntExtra("message", 0)
+        Log.i("Bundle Id", id.toString())
 
-        tvShowViewModel = ViewModelProvider(
-            viewModelStore,
-            tvShowViewModelFactory)
-            .get(TVShowViewModel::class.java)
+    //    val id: Int = intent.getIntExtra(TVCurrentlyAiring.INTENT_MESSAGE, 0)
+
+            tvShowViewModel = ViewModelProvider(
+                this,
+                tvShowViewModelFactory)
+                .get(TVShowViewModel::class.java)
 
         tvShowViewModel.fetchTVDetails(id)
+    }
 
-        tvShowViewModel.tvDetails().observe(this, {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(
+            R.layout.fragment_t_v_details,
+            container,
+            false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initializeViews()
+
+        tvShowViewModel.tvDetails().observe(viewLifecycleOwner, {
             Log.i("Details Object: ", it.name)
             populateView(it)
         })
 
-        tvShowViewModel.errorMessage().observe(this, {
+        tvShowViewModel.errorMessage().observe(viewLifecycleOwner, {
             tvDetailsErrorMessage.text = it
         })
 
-        tvShowViewModel.loadingState.observe(this, {
+        tvShowViewModel.loadingState.observe(viewLifecycleOwner, {
             when (it) {
                 TVShowViewModel.LoadingState.LOADING -> displayProgressbar()
                 TVShowViewModel.LoadingState.SUCCESS -> displayTVList()
@@ -70,17 +92,17 @@ class TVDetailsActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        detailImage = findViewById(R.id.detailImageView)
-        detailName = findViewById(R.id.detailName)
-        detailLang = findViewById(R.id.detailLang)
-        detailGenre = findViewById(R.id.detailGenre)
-        detailFirstAirDate = findViewById(R.id.detailFirstAirDate)
-        detailOverview = findViewById(R.id.detailOverview)
-        detailProCountry = findViewById(R.id.detailProdCountry)
-        detailLastAirDate = findViewById(R.id.detailLastAirDate)
-        detailLastEpisodeToAir = findViewById(R.id.detailLastEpiToAir)
-        tvDetailsErrorMessage = findViewById(R.id.tvDetailsErrorMessage)
-        tvDetailsProgressBar = findViewById(R.id.tvDetailsProgressBar)
+        detailImage = requireView().findViewById(R.id.detailImageView)
+        detailName = requireView().findViewById(R.id.detailName)
+        detailLang = requireView().findViewById(R.id.detailLang)
+        detailGenre = requireView().findViewById(R.id.detailGenre)
+        detailFirstAirDate = requireView().findViewById(R.id.detailFirstAirDate)
+        detailOverview = requireView().findViewById(R.id.detailOverview)
+        detailProCountry = requireView().findViewById(R.id.detailProdCountry)
+        detailLastAirDate = requireView().findViewById(R.id.detailLastAirDate)
+        detailLastEpisodeToAir = requireView().findViewById(R.id.detailLastEpiToAir)
+        tvDetailsErrorMessage = requireView().findViewById(R.id.tvDetailsErrorMessage)
+        tvDetailsProgressBar = requireView().findViewById(R.id.tvDetailsProgressBar)
     }
 
     private fun populateView(item: TVShowDetails) {

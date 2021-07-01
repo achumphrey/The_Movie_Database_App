@@ -1,6 +1,5 @@
 package com.example.themoviedatabaseapp.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
-import com.example.themoviedatabaseapp.TVDetailsActivity
 import com.example.themoviedatabaseapp.adapter.TVTodayAdapter
 import com.example.themoviedatabaseapp.adapter.TVTodayListener
 import com.example.themoviedatabaseapp.di.TVShowApp
@@ -34,15 +34,13 @@ class TVAiringToday : Fragment() {
     private lateinit var tvTdAdapter: TVTodayAdapter
 
     companion object {
-        const val INTENT_MESSAGE = "message"
+        const val BUNDLE_DATA = "message"
     }
 
     private val tvTdClickListener: TVTodayListener = object : TVTodayListener {
 
         override fun TVTodItemClickListener(tvItem: Result) {
-            val intent = Intent(context, TVDetailsActivity::class.java)
-            intent.putExtra(INTENT_MESSAGE, tvItem.id)
-            startActivity(intent)
+            callAnotherFragment(tvItem.id)
         }
     }
 
@@ -125,5 +123,17 @@ class TVAiringToday : Fragment() {
         tvProgressBar.visibility = View.VISIBLE
         tvTdRecyclerView.visibility = View.GONE
         tvErrorMessage.visibility = View.GONE
+    }
+
+    private fun callAnotherFragment(id: Int) {
+        val bundle: Bundle = Bundle().apply { putInt(BUNDLE_DATA, id) }
+        val tvDetailsFragment = TVDetails()
+        tvDetailsFragment.arguments = bundle
+        val fragMgr: FragmentManager = activity?.supportFragmentManager!!
+        val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
+        fragTrans.replace(R.id.fragContainer, tvDetailsFragment, "TV_DETAIL_FRAG")
+        fragTrans.addToBackStack(tvDetailsFragment.tag)
+        fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        fragTrans.commit()
     }
 }

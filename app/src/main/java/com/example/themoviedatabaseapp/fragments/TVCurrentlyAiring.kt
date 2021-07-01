@@ -1,6 +1,5 @@
 package com.example.themoviedatabaseapp.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
-import com.example.themoviedatabaseapp.TVDetailsActivity
 import com.example.themoviedatabaseapp.adapter.TVCurAdapter
 import com.example.themoviedatabaseapp.adapter.TVCurListener
 import com.example.themoviedatabaseapp.di.TVShowApp
@@ -34,14 +34,15 @@ class TVCurrentlyAiring : Fragment() {
     private lateinit var tvCurAdapter: TVCurAdapter
 
     companion object {
-        const val INTENT_MESSAGE = "message"
+        const val BUNDLE_DATA = "message"
     }
 
     private val tvCurClickListener: TVCurListener = object : TVCurListener {
         override fun tvCurItemClickListener(itemList: Result) {
-            val intent = Intent(context, TVDetailsActivity::class.java)
+            /*val intent = Intent(context, TVDetailsActivity::class.java)
             intent.putExtra(INTENT_MESSAGE, itemList.id)
-            startActivity(intent)
+            startActivity(intent)*/
+            callAnotherFragment(itemList.id)
         }
     }
 
@@ -124,5 +125,17 @@ class TVCurrentlyAiring : Fragment() {
         tvProgressBar.visibility = View.VISIBLE
         tvCurRecyclerView.visibility = View.GONE
         tvErrorMessage.visibility = View.GONE
+    }
+
+    private fun callAnotherFragment(id: Int) {
+        val bundle: Bundle = Bundle().apply { putInt(BUNDLE_DATA, id) }
+        val tvDetailsFragment = TVDetails()
+        tvDetailsFragment.arguments = bundle
+        val fragMgr: FragmentManager = activity?.supportFragmentManager!!
+        val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
+        fragTrans.replace(R.id.fragContainer, tvDetailsFragment, "TV_DETAIL_FRAG")
+        fragTrans.addToBackStack(tvDetailsFragment.tag)
+        fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        fragTrans.commit()
     }
 }

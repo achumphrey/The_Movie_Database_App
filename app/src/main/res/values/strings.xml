@@ -21,4 +21,5 @@
     <string name="choose_the_tv_show_to_watch">Choose the TV Show to watch</string>
     <string name="tv_show_currently_airing">TV Show Currently Airing</string>
     <string name="tvshow_airing_today">TVShow Airing Today</string>
+    <string name="tv_show_details">TV Show Details</string>
 </resources>
