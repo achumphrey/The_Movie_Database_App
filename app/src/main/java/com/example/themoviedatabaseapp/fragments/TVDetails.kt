@@ -44,10 +44,6 @@ class TVDetails : Fragment() {
 
         val id: Int = arguments?.getInt(BUNDLE_DATA, 0) ?: 0
 
-        Log.i("Bundle Id", id.toString())
-
-    //    val id: Int = intent.getIntExtra(TVCurrentlyAiring.INTENT_MESSAGE, 0)
-
             tvShowViewModel = ViewModelProvider(
                 this,
                 tvShowViewModelFactory)
@@ -73,7 +69,6 @@ class TVDetails : Fragment() {
         initializeViews()
 
         tvShowViewModel.tvDetails().observe(viewLifecycleOwner, {
-            Log.i("Details Object: ", it.name)
             populateView(it)
         })
 
