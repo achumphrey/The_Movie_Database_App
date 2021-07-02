@@ -1,21 +1,18 @@
 package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.themoviedatabaseapp.R
 
 
 class FirstScreen : Fragment() {
 
-    private lateinit var fragTVCurAiring: TVCurrentlyAiring
-    private lateinit var fragTVAiringToday: TVAiringToday
     private lateinit var tvFirstScren: TextView
     private lateinit var btnCurr: Button
     private lateinit var btnAirToday: Button
@@ -28,7 +25,8 @@ class FirstScreen : Fragment() {
         return inflater.inflate(
             R.layout.fragment_first_screen,
             container,
-            false)
+            false
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,24 +47,22 @@ class FirstScreen : Fragment() {
     private fun whenButtonIsClicked(view: View) {
         when (view.id) {
             R.id.btnAiringToday -> {
-                fragTVAiringToday = TVAiringToday()
-                val fragMgr: FragmentManager = activity?.supportFragmentManager!!
-                val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
-                fragTrans.replace(R.id.fragContainer, fragTVAiringToday, "Air_Today_Frag")
-                fragTrans.addToBackStack(fragTVAiringToday.tag)
-                fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                fragTrans.commit()
+                callToTVAiringToday()
             }
 
             R.id.btnCurrentAiring -> {
-                fragTVCurAiring = TVCurrentlyAiring()
-                val fragMgr: FragmentManager = activity?.supportFragmentManager!!
-                val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
-                fragTrans.replace(R.id.fragContainer, fragTVCurAiring, "Cur_Air_Frag")
-                fragTrans.addToBackStack(fragTVCurAiring.tag)
-                fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                fragTrans.commit()
+                callToTVCurAiring()
             }
         }
+    }
+
+    private fun callToTVAiringToday() {
+        val directions = FirstScreenDirections.actionFirstScreenToTVAiringToday()
+        findNavController().navigate(directions)
+    }
+
+    private fun callToTVCurAiring() {
+        val directions = FirstScreenDirections.actionFirstScreenToTVCurrentlyAiring()
+        findNavController().navigate(directions)
     }
 }

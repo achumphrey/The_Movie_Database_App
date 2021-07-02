@@ -1,7 +1,6 @@
 package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +9,9 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.di.TVShowApp
-import com.example.themoviedatabaseapp.fragments.TVAiringToday.Companion.BUNDLE_DATA
 import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
@@ -42,14 +41,15 @@ class TVDetails : Fragment() {
 
         TVShowApp.getTVShowComponent().inject(this)
 
-        val id: Int = arguments?.getInt(BUNDLE_DATA, 0) ?: 0
+        val args: TVDetailsArgs by navArgs()
+        val tvId: Int = args.itemID
 
-            tvShowViewModel = ViewModelProvider(
+        tvShowViewModel = ViewModelProvider(
                 this,
                 tvShowViewModelFactory)
                 .get(TVShowViewModel::class.java)
 
-        tvShowViewModel.fetchTVDetails(id)
+        tvShowViewModel.fetchTVDetails(tvId)
     }
 
     override fun onCreateView(
@@ -138,4 +138,12 @@ class TVDetails : Fragment() {
         tvDetailsProgressBar.visibility = View.VISIBLE
         tvDetailsErrorMessage.visibility = View.GONE
     }
+
+    /*
+    val args: ConfirmationFragmentArgs by navArgs()
+    val tv: TextView = view.findViewById(R.id.textViewAmount)
+    val amount = args.amount
+    tv.text = amount.toString()
+
+     */
 }

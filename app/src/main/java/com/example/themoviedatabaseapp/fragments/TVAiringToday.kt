@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
@@ -33,14 +32,10 @@ class TVAiringToday : Fragment() {
     private lateinit var tvShowViewModel: TVShowViewModel
     private lateinit var tvTdAdapter: TVTodayAdapter
 
-    companion object {
-        const val BUNDLE_DATA = "message"
-    }
-
     private val tvTdClickListener: TVTodayListener = object : TVTodayListener {
 
         override fun TVTodItemClickListener(tvItem: Result) {
-            callAnotherFragment(tvItem.id)
+            callDetailsFragment(tvItem.id)
         }
     }
 
@@ -125,15 +120,9 @@ class TVAiringToday : Fragment() {
         tvErrorMessage.visibility = View.GONE
     }
 
-    private fun callAnotherFragment(id: Int) {
-        val bundle: Bundle = Bundle().apply { putInt(BUNDLE_DATA, id) }
-        val tvDetailsFragment = TVDetails()
-        tvDetailsFragment.arguments = bundle
-        val fragMgr: FragmentManager = activity?.supportFragmentManager!!
-        val fragTrans: FragmentTransaction = fragMgr.beginTransaction()
-        fragTrans.replace(R.id.fragContainer, tvDetailsFragment, "TV_DETAIL_FRAG")
-        fragTrans.addToBackStack(tvDetailsFragment.tag)
-        fragTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        fragTrans.commit()
+    private fun callDetailsFragment(id: Int) {
+
+        val directions = TVAiringTodayDirections.actionTVAiringTodayToTVDetails(id)
+        findNavController().navigate(directions)
     }
 }

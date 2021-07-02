@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_show_nav_graph"
+    app:startDestination="@id/firstScreen">
+
+    <fragment
+        android:id="@+id/firstScreen"
+        android:name="com.example.themoviedatabaseapp.fragments.FirstScreen"
+        android:label="fragment_first_screen"
+        tools:layout="@layout/fragment_first_screen">
+        <action
+            android:id="@+id/action_firstScreen_to_TVCurrentlyAiring"
+            app:destination="@id/TVCurrentlyAiring" />
+        <action
+            android:id="@+id/action_firstScreen_to_TVAiringToday"
+            app:destination="@id/TVAiringToday" />
+    </fragment>
+    <fragment
+        android:id="@+id/TVAiringToday"
+        android:name="com.example.themoviedatabaseapp.fragments.TVAiringToday"
+        android:label="fragment_t_v__airing__today"
+        tools:layout="@layout/fragment_t_v__airing__today">
+        <action
+            android:id="@+id/action_TVAiringToday_to_TVDetails"
+            app:destination="@id/TVDetails">
+            <argument
+                android:name="itemID"
+                app:argType="integer" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/TVCurrentlyAiring"
+        android:name="com.example.themoviedatabaseapp.fragments.TVCurrentlyAiring"
+        android:label="fragment_t_v__currently__airing"
+        tools:layout="@layout/fragment_t_v__currently__airing">
+        <action
+            android:id="@+id/action_TVCurrentlyAiring_to_TVDetails"
+            app:destination="@id/TVDetails">
+            <argument
+                android:name="itemID"
+                app:argType="integer" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/TVDetails"
+        android:name="com.example.themoviedatabaseapp.fragments.TVDetails"
+        android:label="fragment_t_v_details"
+        tools:layout="@layout/fragment_t_v_details">
+
+        <argument
+            android:name="itemID"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+</navigation>
