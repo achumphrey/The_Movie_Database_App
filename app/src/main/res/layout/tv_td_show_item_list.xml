@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="10dp"
-    android:elevation="10dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="10dp"
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,9 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            android:textSize="20sp"
             android:layout_marginTop="0dp"
             android:text="@string/tv_name"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/tdTvshowImage"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,9 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:text="@string/date_first_aired"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/tdTvshowImage"
             app:layout_constraintTop_toBottomOf="@+id/tdTvshowName" />
 
@@ -52,10 +51,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:text="@string/tv_rating"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/tdTvshowImage"
             app:layout_constraintTop_toBottomOf="@+id/tdDateFirstAired" />
+
+        <ImageView
+            android:id="@+id/tdTvFavImage"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/favourite_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/tdTvshowRating"
+            app:layout_constraintTop_toBottomOf="@id/tdDateFirstAired"
+            app:srcCompat="@drawable/heartgrey" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
