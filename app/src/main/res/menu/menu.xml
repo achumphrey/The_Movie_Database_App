@@ -4,14 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="@string/tv_currently_airing"
-        android:id="@+id/tvcurAiring"
+        android:title="@string/favourites"
+        android:id="@+id/tvcurFav"
+        android:icon="@drawable/solidredheart"
         android:orderInCategory="100"
-        app:showAsAction="never" />
-
-    <item android:title="@string/tv_airing_today"
-        android:id="@+id/tvAiringToday"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
 </menu>

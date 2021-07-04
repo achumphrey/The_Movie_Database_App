@@ -1,9 +1,7 @@
 package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -41,6 +39,8 @@ class TVAiringToday : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
 
         TVShowApp.getTVShowComponent().inject(this)
 
@@ -121,8 +121,27 @@ class TVAiringToday : Fragment() {
     }
 
     private fun callDetailsFragment(id: Int) {
-
         val directions = TVAiringTodayDirections.actionTVAiringTodayToTVDetails(id)
         findNavController().navigate(directions)
+    }
+
+    private fun callToTodFavFragment(){
+        val directions = TVAiringTodayDirections.actionTVAiringTodayToTodFavFragment()
+        findNavController().navigate(directions)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.tvcurFav -> {
+                callToTodFavFragment()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

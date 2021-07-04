@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TVCurrentlyAiring">
+    tools:context=".fragments.favourites.CurFavFragment">
 
     <TextView
-        android:id="@+id/fragTitle"
+        android:id="@+id/fragFavCurTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:typeface="normal"
@@ -16,16 +15,16 @@
         android:textColor="#0323F3"
         android:textAlignment="center"
         android:layout_marginTop="10dp"
-        android:text="@string/tv_currently_airing" />
+        android:text="@string/fav_cur_shows" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyViewTvCurAiring"
+        android:id="@+id/recyViewFavCurAiring"
         android:layout_marginTop="40dp" />
 
     <ProgressBar
-        android:id="@+id/tvProgressBar"
+        android:id="@+id/tvFavCurProgressBar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,9 +32,12 @@
         android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/tvErrorMessage"
+        android:id="@+id/tvFavCurErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:textColor="#1707ED"
         android:visibility="invisible"
         android:layout_gravity="center"
         tools:text="Error Message" />

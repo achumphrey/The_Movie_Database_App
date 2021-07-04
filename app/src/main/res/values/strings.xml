@@ -23,4 +23,7 @@
     <string name="tvshow_airing_today">TVShow Airing Today</string>
     <string name="tv_show_details">TV Show Details</string>
     <string name="favourite_image">Favourite Image</string>
+    <string name="favourites">Favourites Shows</string>
+    <string name="fav_cur_shows">Favourites For Currently Airing Shows</string>
+    <string name="fav_airing_today">Favourites of Shows Airing Today</string>
 </resources>

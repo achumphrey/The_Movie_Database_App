@@ -1,11 +1,10 @@
 package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -32,21 +31,16 @@ class TVCurrentlyAiring : Fragment() {
     private lateinit var tvShowViewModel: TVShowViewModel
     private lateinit var tvCurAdapter: TVCurAdapter
 
-    companion object {
-        const val BUNDLE_DATA = "message"
-    }
-
     private val tvCurClickListener: TVCurListener = object : TVCurListener {
         override fun tvCurItemClickListener(itemList: Result) {
-            /*val intent = Intent(context, TVDetailsActivity::class.java)
-            intent.putExtra(INTENT_MESSAGE, itemList.id)
-            startActivity(intent)*/
             callDetailsFragment(itemList.id)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
 
         TVShowApp.getTVShowComponent().inject(this)
 
@@ -129,5 +123,25 @@ class TVCurrentlyAiring : Fragment() {
     private fun callDetailsFragment(id: Int) {
         val directions = TVCurrentlyAiringDirections.actionTVCurrentlyAiringToTVDetails(id)
         findNavController().navigate(directions)
+    }
+
+    private fun callToCurFavFragment(){
+        val directions = TVCurrentlyAiringDirections.actionTVCurrentlyAiringToCurFavFragment()
+        findNavController().navigate(directions)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.tvcurFav -> {
+                callToCurFavFragment()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
