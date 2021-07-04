@@ -33,18 +33,16 @@ class TVTodayViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         }
 
         if(SharedPreference().checkIfInSharePref(tvTdItem))
-            tvTdFavImage.setImageResource(R.drawable.heartsolid)
+            tvTdFavImage.setImageResource(R.drawable.solidredheart)
 
         tvTdFavImage.setOnClickListener{
             if(SharedPreference().checkIfInSharePref(tvTdItem)){
                 tvTdFavImage.setImageResource(R.drawable.heartgrey)
                 SharedPreference().removeFavorite(tvTdItem)
             }else{
-                tvTdFavImage.setImageResource(R.drawable.heartsolid)
+                tvTdFavImage.setImageResource(R.drawable.solidredheart)
                 SharedPreference().addFavorite(tvTdItem)
             }
         }
     }
-
-
 }

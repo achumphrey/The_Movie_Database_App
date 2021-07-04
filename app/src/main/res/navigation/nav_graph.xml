@@ -30,6 +30,9 @@
                 android:name="itemID"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_TVAiringToday_to_todFavFragment"
+            app:destination="@id/todFavFragment" />
     </fragment>
     <fragment
         android:id="@+id/TVCurrentlyAiring"
@@ -43,6 +46,9 @@
                 android:name="itemID"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_TVCurrentlyAiring_to_curFavFragment"
+            app:destination="@id/curFavFragment" />
     </fragment>
     <fragment
         android:id="@+id/TVDetails"
@@ -54,5 +60,31 @@
             android:name="itemID"
             android:defaultValue="0"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/curFavFragment"
+        android:name="com.example.themoviedatabaseapp.fragments.favourites.CurFavFragment"
+        android:label="fragment_cur_fav"
+        tools:layout="@layout/fragment_cur_fav" >
+        <action
+            android:id="@+id/action_curFavFragment_to_TVDetails"
+            app:destination="@id/TVDetails" >
+            <argument
+                android:name="itemID"
+                app:argType="integer" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/todFavFragment"
+        android:name="com.example.themoviedatabaseapp.fragments.favourites.TodFavFragment"
+        android:label="fragment_tod_fav"
+        tools:layout="@layout/fragment_tod_fav" >
+        <action
+            android:id="@+id/action_todFavFragment_to_TVDetails"
+            app:destination="@id/TVDetails" >
+            <argument
+                android:name="itemID"
+                app:argType="integer" />
+        </action>
     </fragment>
 </navigation>
