@@ -14,7 +14,7 @@ class SharedPreference {
     private var sharedPreferences: SharedPreferences
     private var context: Context = MainActivity.getContextOfApplication()
 
-    companion object{
+    companion object {
         const val PREFS_NAME = "FAVOURITE_SHOWS"
         const val FAVOURITES = "TV_SHOW_Favourite"
     }
@@ -51,11 +51,19 @@ class SharedPreference {
         }
     }
 
-    fun checkIfInSharePref(tvShowModel: Result): Boolean  {
+    fun deleteAllFavorites() {
+        val favouritesList: ArrayList<Result> = getFavorites()
+        if (favouritesList.isNotEmpty()) {
+            favouritesList.clear()
+            saveFavorites(favouritesList)
+        }
+    }
+
+    fun checkIfInSharePref(tvShowModel: Result): Boolean {
         val favouritesList: ArrayList<Result> = getFavorites()
         if (favouritesList.isNotEmpty()) {
             favouritesList.forEach { tvShow: Result ->
-                if (tvShow == tvShowModel){
+                if (tvShow == tvShowModel) {
                     return true
                 }
             }

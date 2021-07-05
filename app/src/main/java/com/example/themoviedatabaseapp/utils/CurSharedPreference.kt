@@ -14,7 +14,7 @@ class CurSharedPreference {
     private var curSharePreference: SharedPreferences
     private var context: Context = MainActivity.getContextOfApplication()
 
-    companion object{
+    companion object {
         const val PREFS_NAME = "CUR_FAVOURITE_SHOWS"
         const val FAVOURITES = "CUR_SHOW_Favourite"
     }
@@ -48,11 +48,19 @@ class CurSharedPreference {
         }
     }
 
-    fun checkIfInSharePref(tvShowModel: Result): Boolean  {
+    fun deleteAllFavorites() {
+        val favouritesList: ArrayList<Result> = getFavorites()
+        if (favouritesList.isNotEmpty()) {
+            favouritesList.clear()
+            saveFavorites(favouritesList)
+        }
+    }
+
+    fun checkIfInSharePref(tvShowModel: Result): Boolean {
         val favouritesList: ArrayList<Result> = getFavorites()
         if (favouritesList.isNotEmpty()) {
             favouritesList.forEach { tvShow: Result ->
-                if (tvShow == tvShowModel){
+                if (tvShow == tvShowModel) {
                     return true
                 }
             }

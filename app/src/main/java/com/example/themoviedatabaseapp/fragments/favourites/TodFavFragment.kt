@@ -1,9 +1,7 @@
 package com.example.themoviedatabaseapp.fragments.favourites
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -22,6 +20,7 @@ class TodFavFragment : Fragment() {
     private lateinit var todFavAdapter: TodFavAdapter
     private lateinit var errorMessage: TextView
     private lateinit var progbar: ProgressBar
+    private lateinit var mMenu: Menu
     var todDataArrayList: ArrayList<Result> = arrayListOf()
 
     private val tvTodFavClickListener: TodFavListener = object : TodFavListener {
@@ -33,6 +32,7 @@ class TodFavFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setHasOptionsMenu(true)
         todDataArrayList = SharedPreference().getFavorites()
     }
 
@@ -81,6 +81,25 @@ class TodFavFragment : Fragment() {
 
     private fun callDetailsFragment(id: Int) {
         val directions = TodFavFragmentDirections.actionTodFavFragmentToTVDetails(id)
-            findNavController().navigate(directions)
+        findNavController().navigate(directions)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        mMenu = menu
+        if (todDataArrayList.isNullOrEmpty()) {
+            mMenu.findItem(R.id.tvcurFav).setIcon(R.drawable.heartgrey)
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.tvcurFav -> {
+                SharedPreference().deleteAllFavorites()
+                mMenu.findItem(R.id.tvcurFav).setIcon(R.drawable.heartgrey)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
