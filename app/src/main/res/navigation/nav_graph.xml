@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tv_show_nav_graph"
-    app:startDestination="@id/firstScreen">
+    app:startDestination="@id/viewPagerFragment">
 
     <fragment
         android:id="@+id/firstScreen"
@@ -86,5 +86,14 @@
                 android:name="itemID"
                 app:argType="integer" />
         </action>
+    </fragment>
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.example.themoviedatabaseapp.pager.ViewPagerFragment"
+        android:label="fragment_pager_view"
+        tools:layout="@layout/fragment_pager_view" >
+        <action
+            android:id="@+id/action_viewPagerFragment_to_firstScreen"
+            app:destination="@id/firstScreen" />
     </fragment>
 </navigation>
