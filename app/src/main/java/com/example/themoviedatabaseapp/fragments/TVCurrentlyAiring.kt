@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -57,7 +56,7 @@ class TVCurrentlyAiring : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         return inflater.inflate(
             R.layout.fragment_t_v__currently__airing,
@@ -125,7 +124,7 @@ class TVCurrentlyAiring : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun callToCurFavFragment(){
+    private fun callToCurFavFragment() {
         val directions = TVCurrentlyAiringDirections.actionTVCurrentlyAiringToCurFavFragment()
         findNavController().navigate(directions)
     }
@@ -137,7 +136,7 @@ class TVCurrentlyAiring : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
+        when (item.itemId) {
             R.id.tvcurFav -> {
                 callToCurFavFragment()
             }

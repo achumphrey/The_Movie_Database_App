@@ -8,7 +8,7 @@ import androidx.appcompat.widget.Toolbar
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         private lateinit var contextOfApplication: Context
 
         fun getContextOfApplication(): Context {
@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar: Toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
 
+        setSupportActionBar(toolbar)
         contextOfApplication = applicationContext
     }
 }

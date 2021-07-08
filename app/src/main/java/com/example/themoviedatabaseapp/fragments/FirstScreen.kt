@@ -47,22 +47,22 @@ class FirstScreen : Fragment() {
     private fun whenButtonIsClicked(view: View) {
         when (view.id) {
             R.id.btnAiringToday -> {
-                callToTVAiringToday()
+            //    callToTVAiringToday()
             }
 
             R.id.btnCurrentAiring -> {
-                callToTVCurAiring()
+             //   callToTVCurAiring()
             }
         }
     }
 
-    private fun callToTVAiringToday() {
+   /* private fun callToTVAiringToday() {
         val directions = FirstScreenDirections.actionFirstScreenToTVAiringToday()
         findNavController().navigate(directions)
-    }
+    }*/
 
-    private fun callToTVCurAiring() {
+    /*private fun callToTVCurAiring() {
         val directions = FirstScreenDirections.actionFirstScreenToTVCurrentlyAiring()
         findNavController().navigate(directions)
-    }
+    }*/
 }

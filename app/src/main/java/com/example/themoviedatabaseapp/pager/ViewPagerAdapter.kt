@@ -20,10 +20,10 @@ class ViewPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0 -> FirstScreen()
+            0 -> HomeFragment()
             1 -> TVAiringToday()
             2 -> TVCurrentlyAiring()
-            else -> FirstScreen()
+            else -> HomeFragment()
         }
     }
 }

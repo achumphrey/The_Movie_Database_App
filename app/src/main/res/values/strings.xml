@@ -26,4 +26,5 @@
     <string name="favourites">Favourites Shows</string>
     <string name="fav_cur_shows">Favourites For Currently Airing Shows</string>
     <string name="fav_airing_today">Favourites of Shows Airing Today</string>
+    <string name="tv_shows_home">Home Screen For TV Shows Airing Now and those Airing Today</string>
 </resources>
