@@ -31,9 +31,8 @@ class CurFavFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
         curDataArrayList = CurSharedPreference().getFavorites()
+        setHasOptionsMenu(true)
     }
 
     override fun onStart() {

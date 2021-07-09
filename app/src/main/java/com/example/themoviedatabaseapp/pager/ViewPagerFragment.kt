@@ -1,10 +1,12 @@
 package com.example.themoviedatabaseapp.pager
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.themoviedatabaseapp.R
 import com.google.android.material.tabs.TabLayout
@@ -45,5 +47,8 @@ class ViewPagerFragment : Fragment() {
                 else -> tab.text = "Home"
             }
         }.attach()
+
+        val toolbar: Toolbar = requireView().findViewById(R.id.toolbar)
+        (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
     }
 }

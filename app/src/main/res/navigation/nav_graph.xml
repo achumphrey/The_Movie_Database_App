@@ -71,6 +71,7 @@
         <action
             android:id="@+id/action_TVCurrentlyAiring_to_curFavFragment"
             app:destination="@id/curFavFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/TVDetails"
@@ -95,6 +96,11 @@
                 android:name="itemID"
                 app:argType="integer" />
         </action>
+
+        <action
+            android:id="@+id/action_TVCurrentlyAiring_to_curFavFragment"
+            app:destination="@id/curFavFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/todFavFragment"
@@ -108,6 +114,9 @@
                 android:name="itemID"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_TVAiringToday_to_todFavFragment"
+            app:destination="@id/todFavFragment" />
     </fragment>
 
 </navigation>
