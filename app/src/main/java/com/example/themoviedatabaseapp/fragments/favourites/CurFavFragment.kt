@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,9 +32,9 @@ class CurFavFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
         curDataArrayList = CurSharedPreference().getFavorites()
-        setHasOptionsMenu(true)
     }
 
     override fun onStart() {
@@ -69,6 +71,9 @@ class CurFavFragment : Fragment() {
             progbar.visibility = View.GONE
             errorMessage.visibility = View.GONE
         }
+
+        val toolbar: Toolbar = requireView().findViewById(R.id.toolbar)
+        (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
     }
 
     private fun setupRecyclerView() {
@@ -84,21 +89,28 @@ class CurFavFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
+        menu.clear()
+        inflater.inflate(R.menu.cumenu, menu)
         mMenu = menu
         if (curDataArrayList.isNullOrEmpty()) {
-            mMenu.findItem(R.id.tvcurFav).setIcon(R.drawable.heartgrey)
+            mMenu.findItem(R.id.tvCurFav).setIcon(R.drawable.heartgrey)
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.tvcurFav -> {
+            R.id.tvCurFav -> {
                 CurSharedPreference().deleteAllFavorites()
-                mMenu.findItem(R.id.tvcurFav).setIcon(R.drawable.heartgrey)
+                mMenu.findItem(R.id.tvCurFav).setIcon(R.drawable.heartgrey)
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        val menuItem: MenuItem = menu.findItem(R.id.tvFav)
+        menuItem.isVisible = false
     }
 }

@@ -5,7 +5,7 @@
 
     <item
         android:title="@string/favourites"
-        android:id="@+id/tvFav"
+        android:id="@+id/tvTdFav"
         android:icon="@drawable/solidredheart"
         android:orderInCategory="100"
         app:showAsAction="always" />

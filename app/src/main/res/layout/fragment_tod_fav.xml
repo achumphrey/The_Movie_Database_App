@@ -1,46 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.favourites.TodFavFragment">
 
+    <!--This appBarLayout covers the toolbar-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0F9D58"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <!--toolbar is one component which is necessary
+            because if we do not use this then title will not be shown
+            when project is executed-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <TextView
         android:id="@+id/fragFavTodTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:typeface="normal"
+        android:layout_marginTop="60dp"
+        android:text="@string/fav_airing_today"
+        android:textAlignment="center"
+        android:textColor="#0323F3"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="#0323F3"
-        android:textAlignment="center"
-        android:layout_marginTop="10dp"
-        android:text="@string/fav_airing_today" />
+        android:typeface="normal" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyViewFavAiringToday"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyViewFavAiringToday"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="90dp" />
 
     <ProgressBar
         android:id="@+id/tvFavTodProgressBar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/tvFavTodErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:layout_gravity="center"
+        android:textColor="#1707ED"
         android:textSize="20sp"
         android:textStyle="bold|italic"
-        android:textColor="#1707ED"
-        android:layout_gravity="center"
+        android:visibility="invisible"
         tools:text="Error Message" />
 
 </FrameLayout>

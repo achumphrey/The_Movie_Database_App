@@ -19,7 +19,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     val loadingState = MutableLiveData<LoadingState>()
 
 
-    fun TVCurrentFromViewModel() {
+    fun tvCurrentFromViewModel() {
 
         loadingState.value = LoadingState.LOADING
 
@@ -44,7 +44,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         )
     }
 
-    fun TVTodayFromViewModel() {
+    fun tvTodayFromViewModel() {
 
         loadingState.value = LoadingState.LOADING
 

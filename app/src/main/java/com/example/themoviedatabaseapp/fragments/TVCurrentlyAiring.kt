@@ -38,7 +38,6 @@ class TVCurrentlyAiring : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setHasOptionsMenu(true)
 
         TVShowApp.getTVShowComponent().inject(this)
@@ -50,7 +49,7 @@ class TVCurrentlyAiring : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        tvShowViewModel.TVCurrentFromViewModel()
+        tvShowViewModel.tvCurrentFromViewModel()
     }
 
     override fun onCreateView(
@@ -124,10 +123,12 @@ class TVCurrentlyAiring : Fragment() {
         findNavController().navigate(directions)
     }
 
+
     private fun callToCurFavFragment() {
         val directions = TVCurrentlyAiringDirections.actionTVCurrentlyAiringToCurFavFragment()
         findNavController().navigate(directions)
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu, menu)
@@ -137,7 +138,7 @@ class TVCurrentlyAiring : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.tvcurFav -> {
+            R.id.tvFav -> {
                 callToCurFavFragment()
             }
         }

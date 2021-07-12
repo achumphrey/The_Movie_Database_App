@@ -29,7 +29,7 @@
 
         <ImageView
             android:id="@+id/detailImageView"
-            android:layout_width="377dp"
+            android:layout_width="258dp"
             android:layout_height="253dp"
             android:layout_margin="8dp"
             android:contentDescription="@string/tv_show_detail_image"
