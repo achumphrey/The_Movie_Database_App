@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,6 +21,7 @@ import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
 import javax.inject.Inject
 
 
+@Suppress("DEPRECATION")
 class TVAiringToday : Fragment() {
 
     private lateinit var tvTdRecyclerView: RecyclerView
@@ -134,6 +137,10 @@ class TVAiringToday : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+
+        val search = menu.findItem(R.id.search)
+        val searchView = MenuItemCompat.getActionView(search) as SearchView
+        search(searchView)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -143,5 +150,18 @@ class TVAiringToday : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun search(searchView: SearchView) {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                tvTdAdapter.filter.filter(newText)
+                return true
+            }
+        })
     }
 }
