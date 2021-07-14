@@ -1,6 +1,6 @@
 package com.example.themoviedatabaseapp.remote
 
-import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
+import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.model.current.CurrentTVShowList
 import com.example.themoviedatabaseapp.model.today.TodayTVShowList
 import io.reactivex.Single

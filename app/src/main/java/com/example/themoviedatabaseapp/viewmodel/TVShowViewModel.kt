@@ -2,7 +2,7 @@ package com.example.themoviedatabaseapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.themoviedatabaseapp.model.TVDetails.TVShowDetails
+import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.model.today.Result
 import com.example.themoviedatabaseapp.repository.TVRepo
 import io.reactivex.disposables.CompositeDisposable

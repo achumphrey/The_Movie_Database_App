@@ -1,10 +1,11 @@
 package com.example.themoviedatabaseapp.adapter.favourites
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
+import com.example.themoviedatabaseapp.databinding.TdFavItemListBinding
 import com.example.themoviedatabaseapp.model.today.Result
 
 class TodFavAdapter(
@@ -12,17 +13,18 @@ class TodFavAdapter(
     private val listener: TodFavListener
 ) : RecyclerView.Adapter<TodFavViewholder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodFavViewholder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            TodFavViewholder {
 
-        val view: View = LayoutInflater
-            .from(parent.context)
-            .inflate(
-                R.layout.td_fav_item_list,
-                parent,
-                false
-            )
+        val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
+        val binding: TdFavItemListBinding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.td_fav_item_list,
+            parent,
+            false
+        )
 
-        return TodFavViewholder(view)
+        return TodFavViewholder(binding)
     }
 
     override fun onBindViewHolder(holder: TodFavViewholder, position: Int) {

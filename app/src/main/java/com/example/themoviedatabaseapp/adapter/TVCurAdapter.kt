@@ -1,12 +1,13 @@
 package com.example.themoviedatabaseapp.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
+import com.example.themoviedatabaseapp.databinding.TvCurShowItemListBinding
 import com.example.themoviedatabaseapp.model.current.Result
 import java.util.*
 import kotlin.collections.ArrayList
@@ -20,15 +21,15 @@ class TVCurAdapter(
     private var filteredList: ArrayList<Result> = tvCurItem as ArrayList<Result>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVCurViewHolder {
-        val view: View = LayoutInflater
-            .from(parent.context)
-            .inflate(
-                R.layout.tv_cur_show_item_list,
-                parent,
-                false
-            )
+        val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
+        val binding: TvCurShowItemListBinding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.tv_cur_show_item_list,
+            parent,
+            false
+        )
 
-        return TVCurViewHolder(view)
+        return TVCurViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TVCurViewHolder, position: Int) {
@@ -58,7 +59,8 @@ class TVCurAdapter(
                         if (
                             tvShow.name.contains(charString)
                             || tvShow.firstAirDate.lowercase(Locale.ROOT).contains(charString)
-                            || tvShow.voteAverage.toString().lowercase(Locale.ROOT).contains(charString)
+                            || tvShow.voteAverage.toString().lowercase(Locale.ROOT)
+                                .contains(charString)
                         ) {
                             newList.add(tvShow)
                         }

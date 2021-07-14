@@ -1,12 +1,13 @@
 package com.example.themoviedatabaseapp.adapter
 
 import  android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
+import com.example.themoviedatabaseapp.databinding.TvTdShowItemListBinding
 import com.example.themoviedatabaseapp.model.today.Result
 import java.util.*
 import kotlin.collections.ArrayList
@@ -21,15 +22,13 @@ class TVTodayAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVTodayViewHolder {
 
-        val view: View = LayoutInflater
-            .from(parent.context)
-            .inflate(
-                R.layout.tv_td_show_item_list,
-                parent,
-                false
-            )
+        val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
+        val binding: TvTdShowItemListBinding = DataBindingUtil.inflate(
+            layoutInflater, R.layout.tv_td_show_item_list,
+            parent,
+            false)
 
-        return TVTodayViewHolder(view)
+        return TVTodayViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TVTodayViewHolder, position: Int) {

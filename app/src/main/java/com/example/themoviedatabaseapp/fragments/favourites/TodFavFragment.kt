@@ -110,6 +110,8 @@ class TodFavFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         val menuItem: MenuItem = menu.findItem(R.id.tvFav)
+        val searchMenu: MenuItem = menu.findItem(R.id.search)
+        searchMenu.isVisible = false
         menuItem.isVisible = false
     }
 }

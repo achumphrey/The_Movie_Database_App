@@ -1,10 +1,11 @@
 package com.example.themoviedatabaseapp.adapter.favourites
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
+import com.example.themoviedatabaseapp.databinding.CurFavItemListBinding
 import com.example.themoviedatabaseapp.model.current.Result
 
 class CurFavAdapter(
@@ -12,16 +13,16 @@ class CurFavAdapter(
     private val listener: CurFavListener
 ) : RecyclerView.Adapter<CurFavViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurFavViewHolder {
-        val view: View = LayoutInflater
-            .from(parent.context)
-            .inflate(
-                R.layout.cur_fav_item_list,
-                parent,
-                false
-            )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            CurFavViewHolder {
+        val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
+        val binding: CurFavItemListBinding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.cur_fav_item_list,
+            parent,
+            false)
 
-        return CurFavViewHolder(view)
+        return CurFavViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CurFavViewHolder, position: Int) {
