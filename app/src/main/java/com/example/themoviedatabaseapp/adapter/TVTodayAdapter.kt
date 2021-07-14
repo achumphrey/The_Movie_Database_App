@@ -1,6 +1,6 @@
 package com.example.themoviedatabaseapp.adapter
 
-import android.view.LayoutInflater
+import  android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
@@ -58,8 +58,8 @@ class TVTodayAdapter(
                     tdTVShowList.forEach { tvShow: Result ->
                         if (
                             tvShow.name.contains(charString)
-                            || tvShow.firstAirDate.toLowerCase(Locale.ROOT).contains(charString)
-                            || tvShow.voteAverage.toString().toLowerCase(Locale.ROOT)
+                            || tvShow.firstAirDate.lowercase(Locale.ROOT).contains(charString)
+                            || tvShow.voteAverage.toString().lowercase(Locale.ROOT)
                                 .contains(charString)
                         ) {
                             newList.add(tvShow)
