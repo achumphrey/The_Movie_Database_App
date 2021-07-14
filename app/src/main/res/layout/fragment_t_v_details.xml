@@ -57,7 +57,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailImageView"
-                tools:text="@{tvDetailObject.name}" />
+                tools:text='@{String.valueOf("Name: " + tvDetailObject.name)}' />
 
             <TextView
                 android:id="@+id/detailGenre"
@@ -69,7 +69,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailName"
-                tools:text="@{tvDetailObject.genres[0].name}" />
+                tools:text='@{String.valueOf("Genre: " + tvDetailObject.genres[0].name ?? "")}' />
 
             <TextView
                 android:id="@+id/detailFirstAirDate"
@@ -81,7 +81,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailGenre"
-                tools:text="@{tvDetailObject.firstAirDate}" />
+                tools:text='@{String.valueOf("First Aired Date: " + tvDetailObject.firstAirDate)}' />
 
             <TextView
                 android:id="@+id/detailLang"
@@ -93,7 +93,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailFirstAirDate"
-                tools:text="@{tvDetailObject.originalLanguage}" />
+                tools:text='@{String.valueOf("Original Language: " + tvDetailObject.originalLanguage ?? "")}' />
 
             <TextView
                 android:id="@+id/detailLastEpiToAir"
@@ -105,7 +105,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailLang"
-                tools:text="@{tvDetailObject.lastEpisodeToAir.name}" />
+                tools:text='@{String.valueOf("Last Episode to Air: " + tvDetailObject.lastEpisodeToAir.name ?? "")}' />
 
             <TextView
                 android:id="@+id/detailProdCountry"
@@ -117,7 +117,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailLastEpiToAir"
-                tools:text="@{tvDetailObject.productionCountries.get(0).name}" />
+                tools:text='@{String.valueOf("Production Country: " + tvDetailObject.productionCountries[0].name ?? "")}' />
 
             <TextView
                 android:id="@+id/detailLastAirDate"
@@ -129,7 +129,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailProdCountry"
-                tools:text="@{tvDetailObject.lastAirDate}" />
+                tools:text='@{String.valueOf("Last Air Date: " + tvDetailObject.lastAirDate)}' />
 
             <TextView
                 android:id="@+id/detailOverview"
@@ -144,7 +144,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailLastAirDate"
-                htmlTxt="@{tvDetailObject.overview}"/>
+                htmlTxt='@{String.valueOf("Overview:\n" + tvDetailObject.overview)}'/>
 
             <ProgressBar
                 android:id="@+id/tvDetailsProgressBar"
