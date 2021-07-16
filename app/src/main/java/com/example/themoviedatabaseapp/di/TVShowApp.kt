@@ -7,7 +7,6 @@ class TVShowApp: Application() {
     companion object{
         private lateinit var tvShowComponent: TVShowComponent
         fun getTVShowComponent() = tvShowComponent
-
     }
 
     override fun onCreate() {

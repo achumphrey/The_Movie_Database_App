@@ -1,5 +1,6 @@
 package com.example.themoviedatabaseapp.di
 
+import android.app.Application
 import com.example.themoviedatabaseapp.remote.WebServices
 import com.example.themoviedatabaseapp.repository.TVRepo
 import com.example.themoviedatabaseapp.repository.TVRepoImpl
@@ -22,4 +23,8 @@ class TVRepoModule {
     fun provideTVShowRepository(webServices: WebServices): TVRepo{
         return TVRepoImpl(webServices)
     }
+
+    @Singleton
+    @Provides
+    fun provideApplicationContext(): Application = Application()
 }

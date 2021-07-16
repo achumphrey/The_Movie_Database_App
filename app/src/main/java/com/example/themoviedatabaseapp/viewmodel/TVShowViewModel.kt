@@ -2,8 +2,8 @@ package com.example.themoviedatabaseapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.repository.TVRepo
 import io.reactivex.disposables.CompositeDisposable
 import java.net.UnknownHostException
@@ -17,6 +17,11 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     <com.example.themoviedatabaseapp.model.current.Result>> = MutableLiveData()
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
     val loadingState = MutableLiveData<LoadingState>()
+
+    private var dBGetSuccess: MutableLiveData<Boolean>? = MutableLiveData()
+    private var dBAddSuccess: MutableLiveData<Boolean>? = MutableLiveData()
+    private var showFromDb: MutableLiveData<TVShowDetails>? = MutableLiveData()
+    private var dbDelSuccess: MutableLiveData<Boolean>? = MutableLiveData()
 
 
     fun tvCurrentFromViewModel() {
@@ -82,6 +87,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
                 } else {
                     loadingState.value = LoadingState.SUCCESS
                     showTVDetails.value = it
+                    addShowToDB(it)
                 }
             }, {
                 it.printStackTrace()
@@ -94,6 +100,53 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         )
     }
 
+    private fun addShowToDB(tvShow: TVShowDetails) {
+        disposable.add(
+            repo.addTVToDB(tvShow)
+                .subscribe({
+                    dBAddSuccess?.value = true
+                }, {
+                    it.printStackTrace()
+                    dBAddSuccess?.value = false
+                })
+        )
+    }
+
+    fun getShowFromDB(id: Int) {
+        loadingState.value = LoadingState.LOADING
+        disposable.add(
+            repo.getTVFromDB(id).subscribe({
+                if (it == null){
+                    errorMessage.value = "No Data Found In DB"
+                    loadingState.value = LoadingState.ERROR
+                }else{
+                showFromDb?.postValue(it)
+                dBGetSuccess?.value = true
+                loadingState.value = LoadingState.SUCCESS
+                }
+            }, {
+                it.printStackTrace()
+                dBGetSuccess?.value = false
+                loadingState.value = LoadingState.ERROR
+            })
+        )
+    }
+
+    fun delShowFromDB(id: Int) {
+        disposable.add(
+            repo.delTVFromDB(id).subscribe({
+                dbDelSuccess?.value = true
+            }, {
+                it.printStackTrace()
+                dbDelSuccess?.value = false
+            })
+        )
+    }
+
+    fun onShowFromDB(): MutableLiveData<TVShowDetails>? {
+        return showFromDb
+    }
+
     enum class LoadingState {
         LOADING,
         SUCCESS,
@@ -104,7 +157,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         return showCurrentTVList
     }
 
-    fun TodayTVLiveData(): MutableLiveData<List<Result>> {
+    fun todayTVLiveData(): MutableLiveData<List<Result>> {
         return showTodayTVList
     }
 
@@ -112,7 +165,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         return errorMessage
     }
 
-    fun tvDetails(): MutableLiveData<TVShowDetails>{
+    fun tvDetails(): MutableLiveData<TVShowDetails> {
         return showTVDetails
     }
 

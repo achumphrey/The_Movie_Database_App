@@ -89,7 +89,7 @@ class TVAiringToday : Fragment() {
             }
         })
 
-        tvShowViewModel.TodayTVLiveData().observe(viewLifecycleOwner, {
+        tvShowViewModel.todayTVLiveData().observe(viewLifecycleOwner, {
             tvTdAdapter.updateTvTdList(it)
         })
 

@@ -19,6 +19,7 @@ class TVDetails : Fragment() {
 
     private var _binding: FragmentTVDetailsBinding? = null
     private val binding get() = _binding!!
+    private var tvId: Int = 0
 
     @Inject
     lateinit var tvShowViewModelFactory: TVShowViewModelFactory
@@ -30,14 +31,17 @@ class TVDetails : Fragment() {
         TVShowApp.getTVShowComponent().inject(this)
 
         val args: TVDetailsArgs by navArgs()
-        val tvId: Int = args.itemID
+        tvId = args.itemID
 
         tvShowViewModel = ViewModelProvider(
                 this,
                 tvShowViewModelFactory)
                 .get(TVShowViewModel::class.java)
 
-        tvShowViewModel.fetchTVDetails(tvId)
+        tvShowViewModel.getShowFromDB(tvId)
+
+    //    tvShowViewModel.fetchTVDetails(tvId)
+
     }
 
     override fun onCreateView(
@@ -58,11 +62,14 @@ class TVDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvShowViewModel.tvDetails().observe(viewLifecycleOwner, {
-            binding.tvDetailObject = it
-
+        tvShowViewModel.onShowFromDB()?.observe(viewLifecycleOwner, {
+                binding.tvDetailObject = it
         })
 
+    /*    tvShowViewModel.tvDetails().observe(viewLifecycleOwner, {
+            binding.tvDetailObject = it
+        })
+*/
         tvShowViewModel.errorMessage().observe(viewLifecycleOwner, {
             binding.tvDetailsErrorMessage.text = it
         })
