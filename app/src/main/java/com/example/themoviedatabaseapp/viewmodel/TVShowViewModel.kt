@@ -18,11 +18,8 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
     val loadingState = MutableLiveData<LoadingState>()
 
-    private var dBGetSuccess: MutableLiveData<Boolean>? = MutableLiveData()
     private var dBAddSuccess: MutableLiveData<Boolean>? = MutableLiveData()
-    private var showFromDb: MutableLiveData<TVShowDetails>? = MutableLiveData()
     private var dbDelSuccess: MutableLiveData<Boolean>? = MutableLiveData()
-
 
     fun tvCurrentFromViewModel() {
 
@@ -75,19 +72,22 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         )
     }
 
-    fun fetchTVDetails(id: Int) {
+    private fun fetchTVDetails(id: Int) {
 
         loadingState.value = LoadingState.LOADING
 
         disposable.add(
             repo.getTVDetail(id).subscribe({
-                if (it == null) {
-                    errorMessage.value = "No Data Found"
-                    loadingState.value = LoadingState.ERROR
-                } else {
-                    loadingState.value = LoadingState.SUCCESS
-                    showTVDetails.value = it
-                    addShowToDB(it)
+                when (it) {
+                    null -> {
+                        errorMessage.value = "No Data Found"
+                        loadingState.value = LoadingState.ERROR
+                    }
+                    else -> {
+                        loadingState.value = LoadingState.SUCCESS
+                        showTVDetails.value = it
+                        addShowToDB(it)
+                    }
                 }
             }, {
                 it.printStackTrace()
@@ -112,21 +112,38 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         )
     }
 
-    fun getShowFromDB(id: Int) {
-        loadingState.value = LoadingState.LOADING
+    fun getCount(id: Int){
         disposable.add(
-            repo.getTVFromDB(id).subscribe({
-                if (it == null){
-                    errorMessage.value = "No Data Found In DB"
-                    loadingState.value = LoadingState.ERROR
-                }else{
-                showFromDb?.postValue(it)
-                dBGetSuccess?.value = true
-                loadingState.value = LoadingState.SUCCESS
+            repo.checkIfData(id).subscribe({
+                  if (it > 0)
+                      getShowFromDB(id)
+                  else
+                      fetchTVDetails(id)
+
+            },{
+                it.printStackTrace()
+            })
+        )
+    }
+
+    private fun getShowFromDB(id: Int) {
+
+        loadingState.value = LoadingState.LOADING
+
+        disposable.add(
+            repo.getTVFromDB(id).subscribe({showObject ->
+                when {
+                    showObject != null -> {
+                        showTVDetails.value = showObject
+                        loadingState.value = LoadingState.SUCCESS
+                    }
+                    else -> {
+                        errorMessage.value = "No Data Found In DB"
+                        loadingState.value = LoadingState.ERROR
+                    }
                 }
             }, {
                 it.printStackTrace()
-                dBGetSuccess?.value = false
                 loadingState.value = LoadingState.ERROR
             })
         )
@@ -141,10 +158,6 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
                 dbDelSuccess?.value = false
             })
         )
-    }
-
-    fun onShowFromDB(): MutableLiveData<TVShowDetails>? {
-        return showFromDb
     }
 
     enum class LoadingState {

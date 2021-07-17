@@ -52,4 +52,10 @@ class TVRepoImpl @Inject constructor(private val webServices: WebServices) : TVR
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    override fun checkIfData(id: Int): Single<Int> {
+        return tvDao!!.count(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 }

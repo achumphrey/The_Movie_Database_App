@@ -1,11 +1,11 @@
 package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.themoviedatabaseapp.R
@@ -19,7 +19,6 @@ class TVDetails : Fragment() {
 
     private var _binding: FragmentTVDetailsBinding? = null
     private val binding get() = _binding!!
-    private var tvId: Int = 0
 
     @Inject
     lateinit var tvShowViewModelFactory: TVShowViewModelFactory
@@ -31,17 +30,15 @@ class TVDetails : Fragment() {
         TVShowApp.getTVShowComponent().inject(this)
 
         val args: TVDetailsArgs by navArgs()
-        tvId = args.itemID
+        val tvId = args.itemID
 
         tvShowViewModel = ViewModelProvider(
-                this,
-                tvShowViewModelFactory)
-                .get(TVShowViewModel::class.java)
+            this,
+            tvShowViewModelFactory
+        )
+            .get(TVShowViewModel::class.java)
 
-        tvShowViewModel.getShowFromDB(tvId)
-
-    //    tvShowViewModel.fetchTVDetails(tvId)
-
+        tvShowViewModel.getCount(tvId)
     }
 
     override fun onCreateView(
@@ -62,14 +59,10 @@ class TVDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvShowViewModel.onShowFromDB()?.observe(viewLifecycleOwner, {
-                binding.tvDetailObject = it
+        tvShowViewModel.tvDetails().observe(viewLifecycleOwner, { tvObject ->
+            binding.tvDetailObject = tvObject
         })
 
-    /*    tvShowViewModel.tvDetails().observe(viewLifecycleOwner, {
-            binding.tvDetailObject = it
-        })
-*/
         tvShowViewModel.errorMessage().observe(viewLifecycleOwner, {
             binding.tvDetailsErrorMessage.text = it
         })

@@ -15,4 +15,5 @@ interface TVRepo {
     fun addTVToDB(tvShow: TVShowDetails): Completable
     fun getTVFromDB(id: Int): Flowable<TVShowDetails>
     fun delTVFromDB(id: Int): Completable
+    fun checkIfData(id: Int): Single<Int>
 }

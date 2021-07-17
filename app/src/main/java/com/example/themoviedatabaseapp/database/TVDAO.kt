@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface TVDAO {
@@ -19,4 +20,7 @@ interface TVDAO {
 
     @Query("delete from tvShow where id = :id")
     fun delTvShow(id: Int): Completable
+
+    @Query("select COUNT() from tvShow where id = :id")
+    fun count(id: Int): Single<Int>
 }
