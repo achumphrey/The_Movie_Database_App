@@ -1,9 +1,9 @@
 package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +19,7 @@ class TVDetails : Fragment() {
 
     private var _binding: FragmentTVDetailsBinding? = null
     private val binding get() = _binding!!
+    private var tvId: Int = 0
 
     @Inject
     lateinit var tvShowViewModelFactory: TVShowViewModelFactory
@@ -26,11 +27,12 @@ class TVDetails : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         TVShowApp.getTVShowComponent().inject(this)
 
         val args: TVDetailsArgs by navArgs()
-        val tvId = args.itemID
+        tvId = args.itemID
 
         tvShowViewModel = ViewModelProvider(
             this,
@@ -75,6 +77,9 @@ class TVDetails : Fragment() {
                 else -> displayErrorMessage()
             }
         })
+
+        val toolbar: Toolbar = requireView().findViewById(R.id.toolbar)
+        (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
     }
 
     private fun displayTVList() {
@@ -90,5 +95,27 @@ class TVDetails : Fragment() {
     private fun displayProgressbar() {
         binding.tvDetailsProgressBar.visibility = View.VISIBLE
         binding.tvDetailsErrorMessage.visibility = View.GONE
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.dmenu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.dtmenu -> {
+                tvShowViewModel.delShowFromDB(tvId)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        val menuItem: MenuItem = menu.findItem(R.id.tvFav)
+        val searchMenu: MenuItem = menu.findItem(R.id.search)
+        searchMenu.isVisible = false
+        menuItem.isVisible = false
     }
 }
