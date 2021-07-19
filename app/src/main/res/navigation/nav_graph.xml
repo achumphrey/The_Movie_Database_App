@@ -81,6 +81,15 @@
         android:label="fragment_t_v_details"
         tools:layout="@layout/fragment_t_v_details">
 
+        <action
+            android:id="@+id/action_TVCurrentlyAiring_to_TVDetails"
+            app:destination="@id/TVDetails">
+        </action>
+        <action
+            android:id="@+id/action_TVAiringToday_to_TVDetails"
+            app:destination="@id/TVDetails">
+        </action>
+
         <argument
             android:name="itemID"
             android:defaultValue="0"
