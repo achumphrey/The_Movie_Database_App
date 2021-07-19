@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.FragmentTVDetailsBinding
@@ -105,7 +103,7 @@ class TVDetails : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.dtmenu -> {
                 tvShowViewModel.delShowFromDB(tvId)
                 requireActivity()
