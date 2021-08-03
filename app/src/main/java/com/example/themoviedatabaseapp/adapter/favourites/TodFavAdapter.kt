@@ -6,10 +6,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.TdFavItemListBinding
-import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.today.TdResult
 
 class TodFavAdapter(
-    private val tdFavList: MutableList<Result>,
+    private val tdFavList: MutableList<TdResult>,
     private val listener: TodFavListener
 ) : RecyclerView.Adapter<TodFavViewholder>() {
 
@@ -35,7 +35,7 @@ class TodFavAdapter(
         return tdFavList.size
     }
 
-    fun updateTdFavList(newTodFavList: List<Result>) {
+    fun updateTdFavList(newTodFavList: List<TdResult>) {
         tdFavList.clear()
         tdFavList.addAll(newTodFavList)
         notifyDataSetChanged()

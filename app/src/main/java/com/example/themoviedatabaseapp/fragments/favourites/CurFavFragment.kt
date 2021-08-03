@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.adapter.favourites.CurFavAdapter
 import com.example.themoviedatabaseapp.adapter.favourites.CurFavListener
-import com.example.themoviedatabaseapp.model.current.Result
+import com.example.themoviedatabaseapp.model.current.CurResult
 import com.example.themoviedatabaseapp.utils.CurSharedPreference
 
 class CurFavFragment : Fragment() {
@@ -23,10 +23,10 @@ class CurFavFragment : Fragment() {
     private lateinit var errorMessage: TextView
     private lateinit var progbar: ProgressBar
     private lateinit var mMenu: Menu
-    var curDataArrayList: ArrayList<Result> = arrayListOf()
+    var curDataArrayList: ArrayList<CurResult> = arrayListOf()
 
     private val tvCurFavClickListener: CurFavListener = object : CurFavListener {
-        override fun curFavItemClickListener(itemList: Result) {
+        override fun curFavItemClickListener(itemList: CurResult) {
             callDetailsFragment(itemList.id)
         }
     }

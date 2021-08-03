@@ -15,7 +15,7 @@ import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.adapter.TVCurAdapter
 import com.example.themoviedatabaseapp.adapter.TVCurListener
 import com.example.themoviedatabaseapp.di.TVShowApp
-import com.example.themoviedatabaseapp.model.current.Result
+import com.example.themoviedatabaseapp.model.current.CurResult
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class TVCurrentlyAiring : Fragment() {
     private lateinit var tvCurAdapter: TVCurAdapter
 
     private val tvCurClickListener: TVCurListener = object : TVCurListener {
-        override fun tvCurItemClickListener(itemList: Result) {
+        override fun tvCurItemClickListener(itemList: CurResult) {
             callDetailsFragment(itemList.id)
         }
     }

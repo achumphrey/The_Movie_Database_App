@@ -8,17 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.TvCurShowItemListBinding
-import com.example.themoviedatabaseapp.model.current.Result
+import com.example.themoviedatabaseapp.model.current.CurResult
 import java.util.*
 import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
 class TVCurAdapter(
-    private val tvCurItem: MutableList<Result>,
+    private val tvCurItem: MutableList<CurResult>,
     private val listener: TVCurListener
 ) : RecyclerView.Adapter<TVCurViewHolder>(), Filterable {
 
-    private var filteredList: ArrayList<Result> = tvCurItem as ArrayList<Result>
+    private var filteredList: ArrayList<CurResult> = tvCurItem as ArrayList<CurResult>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVCurViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
@@ -40,7 +40,7 @@ class TVCurAdapter(
         return filteredList.size
     }
 
-    fun updateTvCurList(newTvCurList: List<Result>) {
+    fun updateTvCurList(newTvCurList: List<CurResult>) {
         filteredList.clear()
         filteredList.addAll(newTvCurList)
         notifyDataSetChanged()
@@ -52,10 +52,10 @@ class TVCurAdapter(
                 val charString: String = constraint.toString()
 
                 if (charString.isEmpty()) {
-                    filteredList = tvCurItem as ArrayList<Result>
+                    filteredList = tvCurItem as ArrayList<CurResult>
                 } else {
-                    val newList: ArrayList<Result> = ArrayList()
-                    tvCurItem.forEach { tvShow: Result ->
+                    val newList: ArrayList<CurResult> = ArrayList()
+                    tvCurItem.forEach { tvShow: CurResult ->
                         if (
                             tvShow.name.contains(charString)
                             || tvShow.firstAirDate.lowercase(Locale.ROOT).contains(charString)
@@ -75,7 +75,7 @@ class TVCurAdapter(
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredList = results?.values as ArrayList<Result>
+                filteredList = results?.values as ArrayList<CurResult>
                 notifyDataSetChanged()
             }
         })

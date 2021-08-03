@@ -3,14 +3,14 @@ package com.example.themoviedatabaseapp.adapter.favourites
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.CurFavItemListBinding
-import com.example.themoviedatabaseapp.model.current.Result
+import com.example.themoviedatabaseapp.model.current.CurResult
 import com.example.themoviedatabaseapp.utils.CurSharedPreference
 import com.squareup.picasso.Picasso
 
 class CurFavViewHolder(private val binding: CurFavItemListBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bindItem(tvCurItem: Result, listener: CurFavListener) {
+    fun bindItem(tvCurItem: CurResult, listener: CurFavListener) {
 
         val httpPrefix = "https://www.themoviedb.org/t/p/w220_and_h330_face"
         binding.curFavshowName.text = tvCurItem.name

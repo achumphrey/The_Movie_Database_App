@@ -2,7 +2,8 @@ package com.example.themoviedatabaseapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.current.CurResult
+import com.example.themoviedatabaseapp.model.today.TdResult
 import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.repository.TVRepo
 import io.reactivex.disposables.CompositeDisposable
@@ -11,10 +12,9 @@ import java.net.UnknownHostException
 class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
 
     private val disposable: CompositeDisposable = CompositeDisposable()
-    private val showTodayTVList: MutableLiveData<List<Result>> = MutableLiveData()
+    private val showTodayTVList: MutableLiveData<List<TdResult>> = MutableLiveData()
     private val showTVDetails: MutableLiveData<TVShowDetails> = MutableLiveData()
-    private val showCurrentTVList: MutableLiveData<List
-    <com.example.themoviedatabaseapp.model.current.Result>> = MutableLiveData()
+    private val showCurrentTVList: MutableLiveData<List<CurResult>> = MutableLiveData()
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
     val loadingState = MutableLiveData<LoadingState>()
 
@@ -166,11 +166,11 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         ERROR
     }
 
-    fun curTVLiveData(): MutableLiveData<List<com.example.themoviedatabaseapp.model.current.Result>> {
+    fun curTVLiveData(): MutableLiveData<List<CurResult>> {
         return showCurrentTVList
     }
 
-    fun todayTVLiveData(): MutableLiveData<List<Result>> {
+    fun todayTVLiveData(): MutableLiveData<List<TdResult>> {
         return showTodayTVList
     }
 

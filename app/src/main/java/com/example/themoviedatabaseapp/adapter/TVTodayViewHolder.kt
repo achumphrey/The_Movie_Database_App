@@ -3,14 +3,14 @@ package com.example.themoviedatabaseapp.adapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.TvTdShowItemListBinding
-import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.today.TdResult
 import com.example.themoviedatabaseapp.utils.SharedPreference
 import com.squareup.picasso.Picasso
 
 class TVTodayViewHolder(private val binding: TvTdShowItemListBinding)
     : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindItem(tvTdItem: Result, listener: TVTodayListener ){
+    fun bindItem(tvTdItem: TdResult, listener: TVTodayListener ){
 
         val httpPrefix = "https://www.themoviedb.org/t/p/w220_and_h330_face"
         binding.tdTvshowName.text = tvTdItem.name

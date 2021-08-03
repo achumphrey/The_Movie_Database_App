@@ -8,17 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.TvTdShowItemListBinding
-import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.today.TdResult
 import java.util.*
 import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
 class TVTodayAdapter(
-    private val tdTVShowList: MutableList<Result>,
+    private val tdTVShowList: MutableList<TdResult>,
     private val listener: TVTodayListener
 ) : RecyclerView.Adapter<TVTodayViewHolder>(), Filterable {
 
-    private var filteredList: ArrayList<Result> = tdTVShowList as ArrayList<Result>
+    private var filteredList: ArrayList<TdResult> = tdTVShowList as ArrayList<TdResult>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVTodayViewHolder {
 
@@ -39,7 +39,7 @@ class TVTodayAdapter(
         return filteredList.size
     }
 
-    fun updateTvTdList(newTvTodayList: List<Result>) {
+    fun updateTvTdList(newTvTodayList: List<TdResult>) {
         filteredList.clear()
         filteredList.addAll(newTvTodayList)
         notifyDataSetChanged()
@@ -51,10 +51,10 @@ class TVTodayAdapter(
                 val charString: String = constraint.toString()
 
                 if (charString.isEmpty()) {
-                    filteredList = tdTVShowList as ArrayList<Result>
+                    filteredList = tdTVShowList as ArrayList<TdResult>
                 } else {
-                    val newList: ArrayList<Result> = ArrayList()
-                    tdTVShowList.forEach { tvShow: Result ->
+                    val newList: ArrayList<TdResult> = ArrayList()
+                    tdTVShowList.forEach { tvShow: TdResult ->
                         if (
                             tvShow.name.contains(charString)
                             || tvShow.firstAirDate.lowercase(Locale.ROOT).contains(charString)
@@ -74,7 +74,7 @@ class TVTodayAdapter(
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredList = results?.values as ArrayList<Result>
+                filteredList = results?.values as ArrayList<TdResult>
                 notifyDataSetChanged()
             }
         })

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.adapter.favourites.TodFavAdapter
 import com.example.themoviedatabaseapp.adapter.favourites.TodFavListener
-import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.today.TdResult
 import com.example.themoviedatabaseapp.utils.SharedPreference
 
 class TodFavFragment : Fragment() {
@@ -23,10 +23,10 @@ class TodFavFragment : Fragment() {
     private lateinit var errorMessage: TextView
     private lateinit var progbar: ProgressBar
     private lateinit var mMenu: Menu
-    var todDataArrayList: ArrayList<Result> = arrayListOf()
+    var todDataArrayList: ArrayList<TdResult> = arrayListOf()
 
     private val tvTodFavClickListener: TodFavListener = object : TodFavListener {
-        override fun tdFavItemClickListener(itemList: Result) {
+        override fun tdFavItemClickListener(itemList: TdResult) {
             callDetailsFragment(itemList.id)
         }
     }

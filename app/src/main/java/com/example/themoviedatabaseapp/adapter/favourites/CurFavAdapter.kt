@@ -6,10 +6,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.CurFavItemListBinding
-import com.example.themoviedatabaseapp.model.current.Result
+import com.example.themoviedatabaseapp.model.current.CurResult
 
 class CurFavAdapter(
-    private val curFavItem: MutableList<Result>,
+    private val curFavItem: MutableList<CurResult>,
     private val listener: CurFavListener
 ) : RecyclerView.Adapter<CurFavViewHolder>() {
 
@@ -33,7 +33,7 @@ class CurFavAdapter(
         return curFavItem.size
     }
 
-    fun updateCurFavList(newcurFavList: List<Result>) {
+    fun updateCurFavList(newcurFavList: List<CurResult>) {
         curFavItem.clear()
         curFavItem.addAll(newcurFavList)
         notifyDataSetChanged()

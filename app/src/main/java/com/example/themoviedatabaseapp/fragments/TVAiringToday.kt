@@ -15,7 +15,7 @@ import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.adapter.TVTodayAdapter
 import com.example.themoviedatabaseapp.adapter.TVTodayListener
 import com.example.themoviedatabaseapp.di.TVShowApp
-import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.today.TdResult
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
 import javax.inject.Inject
@@ -35,7 +35,7 @@ class TVAiringToday : Fragment() {
 
     private val tvTdClickListener: TVTodayListener = object : TVTodayListener {
 
-        override fun TVTodItemClickListener(tvItem: Result) {
+        override fun TVTodItemClickListener(tvItem: TdResult) {
             callDetailsFragment(tvItem.id)
         }
     }

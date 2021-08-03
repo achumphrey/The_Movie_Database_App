@@ -1,7 +1,7 @@
 package com.example.themoviedatabaseapp.adapter
 
-import com.example.themoviedatabaseapp.model.current.Result
+import com.example.themoviedatabaseapp.model.current.CurResult
 
 interface TVCurListener {
-    fun tvCurItemClickListener(itemList: Result)
+    fun tvCurItemClickListener(itemList: CurResult)
 }

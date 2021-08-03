@@ -1,7 +1,7 @@
 package com.example.themoviedatabaseapp.adapter
 
-import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.today.TdResult
 
 interface TVTodayListener {
-    fun TVTodItemClickListener(tvItem: Result)
+    fun TVTodItemClickListener(tvItem: TdResult)
 }

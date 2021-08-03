@@ -3,7 +3,7 @@ package com.example.themoviedatabaseapp.utils
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.themoviedatabaseapp.MainActivity
-import com.example.themoviedatabaseapp.model.today.Result
+import com.example.themoviedatabaseapp.model.today.TdResult
 import com.google.gson.Gson
 import java.util.*
 import kotlin.collections.ArrayList
@@ -27,7 +27,7 @@ class SharedPreference {
     }
 
     // This four methods are used for maintaining favorites.
-    private fun saveFavorites(favouritesList: List<Result>) {
+    private fun saveFavorites(favouritesList: List<TdResult>) {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val gson = Gson()
         val jsonFavourites = gson.toJson(favouritesList)
@@ -35,16 +35,16 @@ class SharedPreference {
         editor.apply()
     }
 
-    fun addFavorite(tvShowModel: Result) {
-        var favoritesList: ArrayList<Result> = getFavorites()
+    fun addFavorite(tvShowModel: TdResult) {
+        var favoritesList: ArrayList<TdResult> = getFavorites()
         if (favoritesList.isNullOrEmpty())
             favoritesList = ArrayList()
         favoritesList.add(tvShowModel)
         saveFavorites(favoritesList)
     }
 
-    fun removeFavorite(tvShowModel: Result) {
-        val favouritesList: ArrayList<Result> = getFavorites()
+    fun removeFavorite(tvShowModel: TdResult) {
+        val favouritesList: ArrayList<TdResult> = getFavorites()
         if (favouritesList.isNotEmpty()) {
             favouritesList.remove(tvShowModel)
             saveFavorites(favouritesList)
@@ -52,17 +52,17 @@ class SharedPreference {
     }
 
     fun deleteAllFavorites() {
-        val favouritesList: ArrayList<Result> = getFavorites()
+        val favouritesList: ArrayList<TdResult> = getFavorites()
         if (favouritesList.isNotEmpty()) {
             favouritesList.clear()
             saveFavorites(favouritesList)
         }
     }
 
-    fun checkIfInSharePref(tvShowModel: Result): Boolean {
-        val favouritesList: ArrayList<Result> = getFavorites()
+    fun checkIfInSharePref(tvShowModel: TdResult): Boolean {
+        val favouritesList: ArrayList<TdResult> = getFavorites()
         if (favouritesList.isNotEmpty()) {
-            favouritesList.forEach { tvShow: Result ->
+            favouritesList.forEach { tvShow: TdResult ->
                 if (tvShow == tvShowModel) {
                     return true
                 }
@@ -71,18 +71,18 @@ class SharedPreference {
         return false
     }
 
-    fun getFavorites(): ArrayList<Result> {
-        var favouritesList: List<Result>
+    fun getFavorites(): ArrayList<TdResult> {
+        var favouritesList: List<TdResult>
 
         if (sharedPreferences.contains(FAVOURITES)) {
             val jsonFavorites = sharedPreferences.getString(FAVOURITES, null)
             val gson = Gson()
-            val favoriteTVShowArray: Array<Result> = gson.fromJson(
+            val favoriteTVShowArray: Array<TdResult> = gson.fromJson(
                 jsonFavorites,
-                Array<Result>::class.java
+                Array<TdResult>::class.java
             )
             favouritesList = favoriteTVShowArray.toList()
-            favouritesList = ArrayList<Result>(favouritesList)
+            favouritesList = ArrayList<TdResult>(favouritesList)
 
         } else return arrayListOf()
 
