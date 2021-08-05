@@ -8,7 +8,6 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.model.today.Result
-import java.util.*
 import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
@@ -49,18 +48,16 @@ class TVTodayAdapter(
     override fun getFilter(): Filter {
         return (object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charString: String = constraint.toString()
-
-                if (charString.isEmpty()) {
+                val charString = constraint.toString()
+                if ( charString.isBlank()){
                     filteredList = tdTVShowList as ArrayList<Result>
                 } else {
                     val newList: ArrayList<Result> = ArrayList()
                     tdTVShowList.forEach { tvShow: Result ->
                         if (
-                            tvShow.name.contains(charString)
-                            || tvShow.firstAirDate.toLowerCase(Locale.ROOT).contains(charString)
-                            || tvShow.voteAverage.toString().toLowerCase(Locale.ROOT)
-                                .contains(charString)
+                            tvShow.name.contains(charString, true)
+                            || tvShow.firstAirDate.contains(charString)
+                            || tvShow.voteAverage.toString().contains(charString)
                         ) {
                             newList.add(tvShow)
                         }
@@ -75,7 +72,10 @@ class TVTodayAdapter(
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredList = results?.values as ArrayList<Result>
+                filteredList = if(results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<Result>
                 notifyDataSetChanged()
             }
         })
