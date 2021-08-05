@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.TvTdShowItemListBinding
 import com.example.themoviedatabaseapp.model.today.TdResult
-import java.util.*
 import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
@@ -56,10 +55,9 @@ class TVTodayAdapter(
                     val newList: ArrayList<TdResult> = ArrayList()
                     tdTVShowList.forEach { tvShow: TdResult ->
                         if (
-                            tvShow.name.contains(charString)
-                            || tvShow.firstAirDate.lowercase(Locale.ROOT).contains(charString)
-                            || tvShow.voteAverage.toString().lowercase(Locale.ROOT)
-                                .contains(charString)
+                            tvShow.name.contains(charString, true)
+                            || tvShow.firstAirDate.contains(charString)
+                            || tvShow.voteAverage.toString().contains(charString)
                         ) {
                             newList.add(tvShow)
                         }
@@ -74,7 +72,13 @@ class TVTodayAdapter(
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredList = results?.values as ArrayList<TdResult>
+
+                filteredList = if(results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<TdResult>
+
+                //    filteredList = results?.values as ArrayList<TdResult>
                 notifyDataSetChanged()
             }
         })
