@@ -1,5 +1,6 @@
 package com.example.themoviedatabaseapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.TvCurShowItemListBinding
 import com.example.themoviedatabaseapp.model.current.CurResult
-import java.util.*
 import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
@@ -40,6 +40,7 @@ class TVCurAdapter(
         return filteredList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateTvCurList(newTvCurList: List<CurResult>) {
         filteredList.clear()
         filteredList.addAll(newTvCurList)
@@ -57,10 +58,9 @@ class TVCurAdapter(
                     val newList: ArrayList<CurResult> = ArrayList()
                     tvCurItem.forEach { tvShow: CurResult ->
                         if (
-                            tvShow.name.contains(charString)
-                            || tvShow.firstAirDate.lowercase(Locale.ROOT).contains(charString)
-                            || tvShow.voteAverage.toString().lowercase(Locale.ROOT)
-                                .contains(charString)
+                            tvShow.name.contains(charString, true)
+                            || tvShow.firstAirDate.contains(charString)
+                            || tvShow.voteAverage.toString().contains(charString)
                         ) {
                             newList.add(tvShow)
                         }
@@ -74,8 +74,12 @@ class TVCurAdapter(
                 return filterResults
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredList = results?.values as ArrayList<CurResult>
+                filteredList = if (results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<CurResult>
                 notifyDataSetChanged()
             }
         })

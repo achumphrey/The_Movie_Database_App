@@ -1,5 +1,6 @@
 package com.example.themoviedatabaseapp.adapter
 
+import android.annotation.SuppressLint
 import  android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -38,6 +39,7 @@ class TVTodayAdapter(
         return filteredList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateTvTdList(newTvTodayList: List<TdResult>) {
         filteredList.clear()
         filteredList.addAll(newTvTodayList)
@@ -71,14 +73,13 @@ class TVTodayAdapter(
                 return filterResults
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
                 filteredList = if(results?.values == null)
                     ArrayList()
                 else
                     results.values as ArrayList<TdResult>
-
-                //    filteredList = results?.values as ArrayList<TdResult>
                 notifyDataSetChanged()
             }
         })
