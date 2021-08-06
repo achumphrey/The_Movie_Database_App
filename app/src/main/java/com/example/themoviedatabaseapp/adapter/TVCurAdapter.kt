@@ -18,7 +18,10 @@ class TVCurAdapter(
     private val listener: TVCurListener
 ) : RecyclerView.Adapter<TVCurViewHolder>(), Filterable {
 
-    private var filteredList: ArrayList<CurResult> = tvCurItem as ArrayList<CurResult>
+    private var filteredList: ArrayList<CurResult>
+    init {
+        filteredList = tvCurItem as ArrayList<CurResult>
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVCurViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)

@@ -131,11 +131,10 @@ class TVCurrentlyAiring : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
-
+        inflater.inflate(R.menu.menu, menu)
         val searchMenuItem = menu.findItem(R.id.search)
-        val searchView = searchMenuItem.actionView as SearchView
+        val searchView: SearchView = searchMenuItem.actionView as SearchView
         search(searchView)
     }
 

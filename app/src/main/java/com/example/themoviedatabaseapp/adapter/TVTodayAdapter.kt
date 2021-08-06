@@ -18,7 +18,10 @@ class TVTodayAdapter(
     private val listener: TVTodayListener
 ) : RecyclerView.Adapter<TVTodayViewHolder>(), Filterable {
 
-    private var filteredList: ArrayList<TdResult> = tdTVShowList as ArrayList<TdResult>
+    private var filteredList: ArrayList<TdResult>
+    init {
+        filteredList = tdTVShowList as ArrayList<TdResult>
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVTodayViewHolder {
 
