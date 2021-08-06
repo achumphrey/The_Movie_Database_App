@@ -5,7 +5,6 @@ import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -138,8 +137,8 @@ class TVAiringToday : Fragment() {
         inflater.inflate(R.menu.menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
 
-        val search = menu.findItem(R.id.search)
-        val searchView = MenuItemCompat.getActionView(search) as SearchView
+        val searchMenuItem = menu.findItem(R.id.search)
+        val searchView = searchMenuItem.actionView as SearchView
         search(searchView)
     }
 
@@ -155,12 +154,13 @@ class TVAiringToday : Fragment() {
     private fun search(searchView: SearchView) {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                tvTdAdapter.filter.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 tvTdAdapter.filter.filter(newText)
-                return true
+                return false
             }
         })
     }
