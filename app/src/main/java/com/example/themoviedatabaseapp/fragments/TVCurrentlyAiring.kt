@@ -124,7 +124,6 @@ class TVCurrentlyAiring : Fragment() {
         findNavController().navigate(directions)
     }
 
-
     private fun callToCurFavFragment() {
         val directions = TVCurrentlyAiringDirections.actionTVCurrentlyAiringToCurFavFragment()
         findNavController().navigate(directions)
@@ -135,7 +134,7 @@ class TVCurrentlyAiring : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
         val searchMenuItem = menu.findItem(R.id.search)
-        val searchView = searchMenuItem.actionView as SearchView
+        val searchView: SearchView = searchMenuItem.actionView as SearchView
         search(searchView)
     }
 
