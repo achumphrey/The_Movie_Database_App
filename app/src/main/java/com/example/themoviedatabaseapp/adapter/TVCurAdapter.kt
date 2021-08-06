@@ -1,5 +1,6 @@
 package com.example.themoviedatabaseapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class TVCurAdapter(
         return filteredList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateTvCurList(newTvCurList: List<Result>) {
         filteredList.clear()
         filteredList.addAll(newTvCurList)
@@ -71,6 +73,7 @@ class TVCurAdapter(
                 return filterResults
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredList = if (results?.values == null)
                     ArrayList()
