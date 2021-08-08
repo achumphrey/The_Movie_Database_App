@@ -28,9 +28,7 @@ val retrofitInstance: WebServices
         return   Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(createOkHttpClient())
             .build().create(WebServices::class.java)
     }
-
 }

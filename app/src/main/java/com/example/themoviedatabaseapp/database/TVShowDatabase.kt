@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 
-@Database(entities = [TVShowDetails::class], version = 1, exportSchema = false)
+@Database(entities = [TVShowDetails::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class TVShowDatabase : RoomDatabase() {
 

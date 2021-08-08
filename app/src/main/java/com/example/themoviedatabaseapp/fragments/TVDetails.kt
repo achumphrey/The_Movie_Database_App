@@ -2,6 +2,7 @@ package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -76,6 +77,20 @@ class TVDetails : Fragment() {
                 TVShowViewModel.LoadingState.ERROR -> displayErrorMessage()
                 else -> displayErrorMessage()
             }
+        })
+
+        tvShowViewModel.dBAddSuccess?.observe(viewLifecycleOwner, {
+            if (it == true){
+                Toast.makeText(requireContext(), "Data Added To DB", Toast.LENGTH_LONG).show()
+            }else
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
+        })
+
+        tvShowViewModel.dbDelSuccess?.observe(viewLifecycleOwner, {
+            if (it == true){
+                Toast.makeText(requireContext(), "Data Deleted From DB", Toast.LENGTH_LONG).show()
+            }else
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
         })
 
         val toolbar: Toolbar = requireView().findViewById(R.id.toolbar)

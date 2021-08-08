@@ -1,12 +1,15 @@
 package com.example.themoviedatabaseapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.themoviedatabaseapp.model.current.CurResult
 import com.example.themoviedatabaseapp.model.today.TdResult
 import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.repository.TVRepo
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
@@ -18,146 +21,146 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
     val loadingState = MutableLiveData<LoadingState>()
 
-    private var dBAddSuccess: MutableLiveData<Boolean>? = MutableLiveData()
-    private var dbDelSuccess: MutableLiveData<Boolean>? = MutableLiveData()
+    var dBAddSuccess: MutableLiveData<Boolean>? = MutableLiveData()
+    var dbDelSuccess: MutableLiveData<Boolean>? = MutableLiveData()
 
     fun tvCurrentFromViewModel() {
-
         loadingState.value = LoadingState.LOADING
-
-        disposable.add(
-            repo.getTVCurrent()
-                .subscribe({
-                    if (it.results.isEmpty()) {
-                        errorMessage.value = "No Data Found"
-                        loadingState.value = LoadingState.ERROR
-                    } else {
-                        showCurrentTVList.value = it.results
-                        loadingState.value = LoadingState.SUCCESS
-                    }
-                }, {
-                    it.printStackTrace()
-                    when (it) {
-                        is UnknownHostException -> errorMessage.value = "No Network!"
-                        else -> errorMessage.value = it.localizedMessage
-                    }
+        viewModelScope.launch {
+            try {
+                val curTVList = repo.getTVCurrent()
+                if (curTVList.results.isEmpty()) {
+                    errorMessage.value = "No Data Found"
                     loadingState.value = LoadingState.ERROR
-                })
-        )
+                } else {
+                    showCurrentTVList.value = curTVList.results
+                    loadingState.value = LoadingState.SUCCESS
+                }
+            } catch (e: Exception){
+                e.printStackTrace()
+                when (e) {
+                    is UnknownHostException -> errorMessage.value = "No Network!"
+                    else -> errorMessage.value = e.localizedMessage
+                }
+                loadingState.value = LoadingState.ERROR
+            }
+        }
     }
 
     fun tvTodayFromViewModel() {
-
         loadingState.value = LoadingState.LOADING
-
-        disposable.add(
-            repo.getTVToday()
-                .subscribe({
-                    if (it.results.isEmpty()) {
-                        errorMessage.value = "No Data Found"
-                        loadingState.value = LoadingState.ERROR
-                    } else {
-                        showTodayTVList.value = it.results
-                        loadingState.value = LoadingState.SUCCESS
-                    }
-
-                }, {
-                    it.printStackTrace()
-                    when (it) {
-                        is UnknownHostException -> errorMessage.value = "No Network!"
-                        else -> errorMessage.value = it.localizedMessage
-                    }
+        viewModelScope.launch {
+            try {
+                val tdTVList = repo.getTVToday()
+                if (tdTVList.results.isEmpty()) {
+                    errorMessage.value = "No Data Found"
                     loadingState.value = LoadingState.ERROR
-                })
-        )
+                } else {
+                    showTodayTVList.value = tdTVList.results
+                    loadingState.value = LoadingState.SUCCESS
+                }
+            }catch (e: Exception){
+                e.printStackTrace()
+                when (e) {
+                    is UnknownHostException -> errorMessage.value = "No Network!"
+                    else -> errorMessage.value = e.localizedMessage
+                }
+                loadingState.value = LoadingState.ERROR
+            }
+        }
     }
 
     private fun fetchTVDetails(id: Int) {
-
         loadingState.value = LoadingState.LOADING
+        viewModelScope.launch {
+           var tvDetails: TVShowDetails? = null
+            try {
+                tvDetails = repo.getTVDetail(id)
 
-        disposable.add(
-            repo.getTVDetail(id).subscribe({
-                when (it) {
-                    null -> {
-                        errorMessage.value = "No Data Found"
-                        loadingState.value = LoadingState.ERROR
-                    }
-                    else -> {
-                        loadingState.value = LoadingState.SUCCESS
-                        showTVDetails.value = it
-                        addShowToDB(it)
-                    }
-                }
-            }, {
-                it.printStackTrace()
-                when (it) {
+            }catch (e: Exception){
+                e.printStackTrace()
+                when (e) {
                     is UnknownHostException -> errorMessage.value = "No Network!"
-                    else -> errorMessage.value = it.localizedMessage
+                    else -> errorMessage.value = e.localizedMessage
                 }
                 loadingState.value = LoadingState.ERROR
-            })
-        )
+            }
+
+            if (tvDetails == null) {
+                errorMessage.value = "No Data Found"
+                loadingState.value = LoadingState.ERROR
+            }
+            else {
+                loadingState.value = LoadingState.SUCCESS
+                showTVDetails.value = tvDetails
+                addShowToDB(tvDetails)
+            }
+        }
     }
 
     private fun addShowToDB(tvShow: TVShowDetails) {
-        disposable.add(
-            repo.addTVToDB(tvShow)
-                .subscribe({
-                    dBAddSuccess?.value = true
-                }, {
-                    it.printStackTrace()
-                    dBAddSuccess?.value = false
-                })
-        )
+        viewModelScope.launch {
+            try {
+                repo.addTVToDB(tvShow)
+                Log.i("ViewModel", tvShow.name)
+                dBAddSuccess?.value = true
+            }catch (e: Exception){
+                e.printStackTrace()
+                dBAddSuccess?.value = false
+            }
+        }
     }
 
     fun getCount(id: Int){
-        disposable.add(
-            repo.checkIfData(id).subscribe({
-                  if (it > 0)
-                      getShowFromDB(id)
-                  else
-                      fetchTVDetails(id)
-
-            },{
-                it.printStackTrace()
-            })
-        )
+        viewModelScope.launch {
+            val count: Int
+            try {
+                count = repo.checkIfData(id)
+                Log.i("ViewModel", count.toString())
+                if (count > 0){
+                    getShowFromDB(id)
+                }
+                else
+                    fetchTVDetails(id)
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun getShowFromDB(id: Int) {
-
         loadingState.value = LoadingState.LOADING
-
-        disposable.add(
-            repo.getTVFromDB(id).subscribe({showObject ->
-                when {
-                    showObject != null -> {
-                        showTVDetails.value = showObject
-                        loadingState.value = LoadingState.SUCCESS
-                    }
-                    else -> {
-                        errorMessage.value = "No Data Found In DB"
-                        loadingState.value = LoadingState.ERROR
-                    }
-                }
-            }, {
-                it.printStackTrace()
+        viewModelScope.launch {
+            var tvShowDetails: TVShowDetails? = null
+            try {
+                tvShowDetails = repo.getTVFromDB(id)
+            }catch (e: Exception){
+                e.printStackTrace()
                 loadingState.value = LoadingState.ERROR
-            })
-        )
+            }
+            when {
+                tvShowDetails != null -> {
+                    showTVDetails.value = tvShowDetails
+                    loadingState.value = LoadingState.SUCCESS
+                }
+                else -> {
+                    errorMessage.value = "No Data Found In DB"
+                    loadingState.value = LoadingState.ERROR
+                }
+            }
+        }
     }
 
     fun delShowFromDB(id: Int) {
-        disposable.add(
-            repo.delTVFromDB(id).subscribe({
-                dbDelSuccess?.value = true
-            }, {
-                it.printStackTrace()
-                dbDelSuccess?.value = false
-            })
-        )
+        viewModelScope.launch {
+           try {
+               repo.delTVFromDB(id)
+               dbDelSuccess?.value = true
+           } catch (e: Exception){
+               e.printStackTrace()
+               dbDelSuccess?.value = false
+           }
+        }
     }
 
     enum class LoadingState {
