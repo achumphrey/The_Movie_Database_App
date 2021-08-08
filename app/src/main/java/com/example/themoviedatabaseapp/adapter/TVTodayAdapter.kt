@@ -50,19 +50,20 @@ class TVTodayAdapter(
     }
 
     override fun getFilter(): Filter {
-        return (object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charString: String = constraint.toString()
+        return filter
+    }
 
-                if (charString.isEmpty()) {
+    private val filter: Filter = object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                if (constraint.toString().isEmpty()) {
                     filteredList = tdTVShowList as ArrayList<TdResult>
                 } else {
                     val newList: ArrayList<TdResult> = ArrayList()
                     tdTVShowList.forEach { tvShow: TdResult ->
                         if (
-                            tvShow.name.contains(charString, true)
-                            || tvShow.firstAirDate.contains(charString)
-                            || tvShow.voteAverage.toString().contains(charString)
+                            tvShow.name.contains(constraint.toString(), true)
+                            || tvShow.firstAirDate.contains(constraint.toString())
+                            || tvShow.voteAverage.toString().contains(constraint.toString())
                         ) {
                             newList.add(tvShow)
                         }
@@ -85,6 +86,5 @@ class TVTodayAdapter(
                     results.values as ArrayList<TdResult>
                 notifyDataSetChanged()
             }
-        })
-    }
+        }
 }
