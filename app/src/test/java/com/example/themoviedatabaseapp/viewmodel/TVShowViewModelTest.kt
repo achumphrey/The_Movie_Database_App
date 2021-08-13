@@ -8,32 +8,34 @@ import com.example.themoviedatabaseapp.model.today.TdResult
 import com.example.themoviedatabaseapp.model.today.TodayTVShowList
 import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.repository.TVRepo
-import com.nhaarman.mockitokotlin2.atLeast
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import io.reactivex.Single
+import com.example.themoviedatabaseapp.util.TestCoroutineRule
+import com.nhaarman.mockitokotlin2.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import java.lang.RuntimeException
 import java.net.UnknownHostException
 
-@RunWith(MockitoJUnitRunner::class)
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class) //Tells Mockito to create the mocks based on the @Mock annotation
 class TVShowViewModelTest {
 
-    @Rule
-    @JvmField
-    val rule: TestRule = InstantTaskExecutorRule()
+    // Needed to test codes with LiveData or class that use Architecture Components.
+    @get:Rule
+    val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    val testCoroutineRule = TestCoroutineRule()
 
     //declare all properties here
     private lateinit var tvShowViewModel: TVShowViewModel
-    private val showTdTVListObserver: Observer<List<TdResult>> = mock()
+    private val showTdTVListObserver: Observer<List<TdResult>> = mock() //create mock objects
     private val showTVDetailsObserver: Observer<TVShowDetails> = mock()
     private val showCurTVListObserver: Observer<List<CurResult>> = mock()
     private val errorMessageObserver: Observer<String> = mock()
@@ -43,125 +45,144 @@ class TVShowViewModelTest {
     private var tdResultList = mutableListOf<TdResult>()
     private var curResultList = mutableListOf<CurResult>()
 
-    @Mock
+    @Mock //creates mock objects
     private lateinit var tvRepo: TVRepo
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this) //triggers the initialization of the @Mock annotated fields
         tvShowViewModel = TVShowViewModel(tvRepo)
         tvShowViewModel.loadingState.observeForever(loadingStateObserver)
         tvShowViewModel.curTVLiveData().observeForever(showCurTVListObserver)
         tvShowViewModel.todayTVLiveData().observeForever(showTdTVListObserver)
         tvShowViewModel.tvDetails().observeForever(showTVDetailsObserver)
         tvShowViewModel.errorMessage().observeForever(errorMessageObserver)
-        tdResultList.add(TdResult("any",11, "any","any",0.2))
-        curResultList.add(CurResult("any",12, "any","any",0.1))
+        tdResultList.add(TdResult("any", 11, "any", "any", 0.2))
+        curResultList.add(CurResult("any", 12, "any", "any", 0.1))
         curTvshow = CurrentTVShowList(curResultList)
         tdTvshow = TodayTVShowList(tdResultList)
     }
 
     @Test
-    fun fetchCurTv_ReturnData_WithSuccess(){
-        `when`(tvRepo.getTVCurrent()).thenReturn(Single.just(curTvshow))
-        tvShowViewModel.tvCurrentFromViewModel()
+    fun fetchCurTv_ReturnData_WithSuccess() {
+        testCoroutineRule.runBlockingTest {
+            //run the mocked the dependency to return the success with a list.
+            doReturn(curTvshow).`when`(tvRepo).getTVCurrent()
 
-        verify(tvRepo, atLeast(1)).getTVCurrent()
-        verify(showCurTVListObserver, atLeast(1)).onChanged(curResultList)
-        verify(loadingStateObserver, atLeast(1))
-            .onChanged(TVShowViewModel.LoadingState.SUCCESS)
-        verify(errorMessageObserver, atLeast(0)).onChanged("any")
+            tvShowViewModel.tvCurrentFromViewModel() // Then, we fetch...
+
+            //and verify.
+            verify(tvRepo, atLeast(1)).getTVCurrent()
+            verify(showCurTVListObserver, atLeast(1)).onChanged(curResultList)
+            verify(loadingStateObserver, atLeast(1))
+                .onChanged(TVShowViewModel.LoadingState.SUCCESS)
+            verify(errorMessageObserver, atLeast(0)).onChanged("any")
+        }
     }
 
     @Test
-    fun fetchTdTv_ReturnData_WithSuccess(){
-        `when`(tvRepo.getTVToday()) .thenReturn(Single.just(tdTvshow))
-        tvShowViewModel.tvTodayFromViewModel()
+    suspend fun fetchTdTv_ReturnData_WithSuccess() {
+        testCoroutineRule.runBlockingTest {
+            doReturn(tdTvshow).`when`(tvRepo).getTVToday()
+            tvShowViewModel.tvTodayFromViewModel()
 
-        verify(tvRepo, atLeast(1)).getTVToday()
-        verify(showTdTVListObserver, atLeast(1)).onChanged(tdResultList)
-        verify(loadingStateObserver, atLeast(1))
-            .onChanged(TVShowViewModel.LoadingState.SUCCESS)
-        verify(errorMessageObserver, atLeast(0)).onChanged("any")
+            verify(tvRepo, atLeast(1)).getTVToday()
+            verify(showTdTVListObserver, atLeast(1)).onChanged(tdResultList)
+            verify(loadingStateObserver, atLeast(1))
+                .onChanged(TVShowViewModel.LoadingState.SUCCESS)
+            verify(errorMessageObserver, atLeast(0)).onChanged("any")
+        }
+    }
+
+
+
+    @Test
+    suspend fun fetchCurTv_NoReturnData_EmptyList() {
+        testCoroutineRule.runBlockingTest {
+            val emptyCurTvShow = CurrentTVShowList(emptyList())
+            doReturn(emptyCurTvShow).`when`(tvRepo).getTVCurrent()
+            tvShowViewModel.tvCurrentFromViewModel()
+
+            verify(tvRepo, atLeast(1)).getTVCurrent()
+            verify(showCurTVListObserver, atLeast(0)).onChanged(emptyList())
+            verify(loadingStateObserver, atLeast(1))
+                .onChanged(TVShowViewModel.LoadingState.ERROR)
+            verify(errorMessageObserver, atLeast(1)).onChanged("No Data Found")
+        }
     }
 
     @Test
-    fun fetchCurTv_NoReturnData_EmptyList(){
-        val emptyCurTvShow = CurrentTVShowList(emptyList())
-        `when`(tvRepo.getTVCurrent()).thenReturn(Single.just(emptyCurTvShow))
-        tvShowViewModel.tvCurrentFromViewModel()
+    suspend fun fetchTdTv_NoReturnData_EmptyList() {
+        testCoroutineRule.runBlockingTest {
+            val emptyTdTvShow = TodayTVShowList(emptyList())
+            doReturn(emptyTdTvShow).`when`(tvRepo).getTVToday()
+            tvShowViewModel.tvTodayFromViewModel()
 
-        verify(tvRepo, atLeast(1)).getTVCurrent()
-        verify(showCurTVListObserver, atLeast(0)).onChanged(emptyList())
-        verify(loadingStateObserver, atLeast(1))
-            .onChanged(TVShowViewModel.LoadingState.ERROR)
-        verify(errorMessageObserver, atLeast(1)).onChanged("No Data Found")
+            verify(tvRepo, atLeast(1)).getTVToday()
+            verify(showTdTVListObserver, atLeast(0)).onChanged(emptyList())
+            verify(loadingStateObserver, atLeast(1))
+                .onChanged(TVShowViewModel.LoadingState.ERROR)
+            verify(errorMessageObserver, atLeast(1)).onChanged("No Data Found")
+        }
     }
 
     @Test
-    fun fetchTdTv_NoReturnData_EmptyList(){
-        val emptyTdTvShow = TodayTVShowList(emptyList())
-        `when`(tvRepo.getTVToday()) .thenReturn(Single.just(emptyTdTvShow))
-        tvShowViewModel.tvTodayFromViewModel()
+    suspend fun fetchCurTv_NoReturnData_NoNetwork() {
+        testCoroutineRule.runBlockingTest {
+            doThrow(UnknownHostException("NO Network!")).`when`(tvRepo).getTVCurrent()
+            tvShowViewModel.tvCurrentFromViewModel()
 
-        verify(tvRepo, atLeast(1)).getTVToday()
-        verify(showTdTVListObserver, atLeast(0)).onChanged(emptyList())
-        verify(loadingStateObserver, atLeast(1))
-            .onChanged(TVShowViewModel.LoadingState.ERROR)
-        verify(errorMessageObserver, atLeast(1)).onChanged("No Data Found")
+            verify(tvRepo, atLeast(1)).getTVCurrent()
+            verify(showCurTVListObserver, atLeast(0)).onChanged(emptyList())
+            verify(loadingStateObserver, atLeast(1))
+                .onChanged(TVShowViewModel.LoadingState.ERROR)
+            verify(errorMessageObserver, atLeast(1)).onChanged("No Network!")
+        }
     }
 
     @Test
-    fun fetchCurTv_NoReturnData_NoNetwork(){
-        `when`(tvRepo.getTVCurrent()).thenReturn(Single.error(
-            UnknownHostException("No Network!")))
-        tvShowViewModel.tvCurrentFromViewModel()
+    suspend fun fetchTdTv_NoReturnData_NoNetwork() {
+        testCoroutineRule.runBlockingTest {
+            doThrow(UnknownHostException("No Network!")).`when`(tvRepo).getTVToday()
+            tvShowViewModel.tvTodayFromViewModel()
 
-        verify(tvRepo, atLeast(1)).getTVCurrent()
-        verify(showCurTVListObserver, atLeast(0)).onChanged(emptyList())
-        verify(loadingStateObserver, atLeast(1))
-            .onChanged(TVShowViewModel.LoadingState.ERROR)
-        verify(errorMessageObserver, atLeast(1)).onChanged("No Network!")
+            verify(tvRepo, atLeast(1)).getTVToday()
+            verify(showTdTVListObserver, atLeast(0)).onChanged(emptyList())
+            verify(loadingStateObserver, atLeast(1))
+                .onChanged(TVShowViewModel.LoadingState.ERROR)
+            verify(errorMessageObserver, atLeast(1)).onChanged("No Network!")
+        }
     }
 
     @Test
-    fun fetchTdTv_NoReturnData_NoNetwork(){
-        `when`(tvRepo.getTVToday()).thenReturn(Single.error(
-            UnknownHostException("No Network!")))
-        tvShowViewModel.tvTodayFromViewModel()
+    suspend fun fetchTdTV_NoReturnData_WithError() {
+        testCoroutineRule.runBlockingTest {
+            doThrow(RuntimeException("Something Wrong, no blank or empty field"))
+                .`when`(tvRepo).getTVToday()
+            tvShowViewModel.tvTodayFromViewModel()
 
-        verify(tvRepo, atLeast(1)).getTVToday()
-        verify(showTdTVListObserver, atLeast(0)).onChanged(emptyList())
-        verify(loadingStateObserver, atLeast(1))
-            .onChanged(TVShowViewModel.LoadingState.ERROR)
-        verify(errorMessageObserver, atLeast(1)).onChanged("No Network!")
+            verify(tvRepo, atLeast(1)).getTVToday()
+            verify(showTdTVListObserver, atLeast(0)).onChanged(emptyList())
+            verify(loadingStateObserver, atLeast(1))
+                .onChanged(TVShowViewModel.LoadingState.ERROR)
+            verify(errorMessageObserver, atLeast(1))
+                .onChanged("Something Wrong, no blank or empty field")
+        }
     }
 
     @Test
-    fun fetchTdTV_NoReturnData_WithError(){
-        `when`(tvRepo.getTVToday()).thenReturn(Single.error(
-            RuntimeException("Something Wrong, no blank or empty field")))
-        tvShowViewModel.tvTodayFromViewModel()
+    suspend fun fetchCurTV_NoReturnData_WithError() {
+        testCoroutineRule.runBlockingTest {
+            doThrow(RuntimeException("Something Wrong, no blank or empty field"))
+                .`when`(tvRepo).getTVCurrent()
+            tvShowViewModel.tvCurrentFromViewModel()
 
-        verify(tvRepo, atLeast(1)).getTVToday()
-        verify(showTdTVListObserver, atLeast(0)).onChanged(emptyList())
-        verify(loadingStateObserver, atLeast(1))
-            .onChanged(TVShowViewModel.LoadingState.ERROR)
-        verify(errorMessageObserver, atLeast(1))
-            .onChanged("Something Wrong, no blank or empty field")
-    }
-
-    @Test
-    fun fetchCurTV_NoReturnData_WithError(){
-        `when`(tvRepo.getTVCurrent()).thenReturn(Single.error(
-            RuntimeException("Something Wrong, no blank or empty field")))
-        tvShowViewModel.tvCurrentFromViewModel()
-
-        verify(tvRepo, atLeast(1)).getTVCurrent()
-        verify(showCurTVListObserver, atLeast(0)).onChanged(emptyList())
-        verify(loadingStateObserver, atLeast(1))
-            .onChanged(TVShowViewModel.LoadingState.ERROR)
-        verify(errorMessageObserver, atLeast(1))
-            .onChanged("Something Wrong, no blank or empty field")
+            verify(tvRepo, atLeast(1)).getTVCurrent()
+            verify(showCurTVListObserver, atLeast(0)).onChanged(emptyList())
+            verify(loadingStateObserver, atLeast(1))
+                .onChanged(TVShowViewModel.LoadingState.ERROR)
+            verify(errorMessageObserver, atLeast(1))
+                .onChanged("Something Wrong, no blank or empty field")
+        }
     }
 }
