@@ -1,7 +1,10 @@
 package com.example.themoviedatabaseapp.fragments
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +17,7 @@ import com.example.themoviedatabaseapp.databinding.FragmentTVDetailsBinding
 import com.example.themoviedatabaseapp.di.TVShowApp
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class TVDetails : Fragment() {
@@ -80,16 +84,16 @@ class TVDetails : Fragment() {
         })
 
         tvShowViewModel.dBAddSuccess?.observe(viewLifecycleOwner, {
-            if (it == true){
-                Toast.makeText(requireContext(), "Data Added To DB", Toast.LENGTH_LONG).show()
-            }else
+            if (it == true) {
+                setSnack()
+            } else
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
         })
 
         tvShowViewModel.dbDelSuccess?.observe(viewLifecycleOwner, {
-            if (it == true){
+            if (it == true) {
                 Toast.makeText(requireContext(), "Data Deleted From DB", Toast.LENGTH_LONG).show()
-            }else
+            } else
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
         })
 
@@ -121,9 +125,7 @@ class TVDetails : Fragment() {
         when (item.itemId) {
             R.id.dtmenu -> {
                 tvShowViewModel.delShowFromDB(tvId)
-                requireActivity()
-                    .supportFragmentManager
-                    .popBackStackImmediate()
+                resetView()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -135,5 +137,29 @@ class TVDetails : Fragment() {
         val searchMenu: MenuItem = menu.findItem(R.id.search)
         searchMenu.isVisible = false
         menuItem.isVisible = false
+    }
+
+    @SuppressLint("ShowToast")
+    private fun setSnack() {
+        val snack = Snackbar.make(requireView(), "Data Added To Database", Snackbar.LENGTH_LONG)
+            .setAction("OK") { resetView() }
+        snack.setActionTextColor(Color.parseColor("#e3f705"))
+
+        val snackView = snack.view
+        snackView.setBackgroundColor(Color.parseColor("#3505f7"))
+        val textView =
+            snackView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+        val actionTextView =
+            snackView.findViewById(com.google.android.material.R.id.snackbar_action) as TextView
+        textView.setTextColor(Color.parseColor("#FFFFFF"))
+        textView.textSize = 25f
+        actionTextView.textSize = 25f
+        snack.show()
+    }
+
+    private fun resetView(){
+        requireActivity()
+            .supportFragmentManager
+            .popBackStackImmediate()
     }
 }
