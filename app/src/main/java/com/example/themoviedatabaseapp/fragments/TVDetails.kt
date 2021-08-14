@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.FragmentTVDetailsBinding
 import com.example.themoviedatabaseapp.di.TVShowApp
+import com.example.themoviedatabaseapp.utils.TVDetailsDialogFragment
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -124,8 +125,10 @@ class TVDetails : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.dtmenu -> {
-                tvShowViewModel.delShowFromDB(tvId)
-                resetView()
+                TVDetailsDialogFragment.newInstance(tvId)
+                    .show(
+                        requireActivity().supportFragmentManager,
+                        TVDetailsDialogFragment.TAG)
             }
         }
         return super.onOptionsItemSelected(item)

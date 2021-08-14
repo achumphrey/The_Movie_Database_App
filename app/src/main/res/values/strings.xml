@@ -28,4 +28,8 @@
     <string name="fav_airing_today">Favourites of Shows Airing Today</string>
     <string name="tv_shows_home">Home Screen For TV Shows Airing Now and those Airing Today</string>
     <string name="search">Search</string>
+    <string name="dialog_title">Delete Dialog</string>
+    <string name="delete_data_from_database">Delete Data From Database?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
 </resources>
