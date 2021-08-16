@@ -1,10 +1,13 @@
 package com.example.themoviedatabaseapp.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.*
+import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,7 +20,9 @@ import com.example.themoviedatabaseapp.di.TVShowApp
 import com.example.themoviedatabaseapp.model.today.TdResult
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 @Suppress("DEPRECATION")
@@ -26,6 +31,8 @@ class TVAiringToday : Fragment() {
     private lateinit var tvTdRecyclerView: RecyclerView
     private lateinit var tvProgressBar: ProgressBar
     private lateinit var tvErrorMessage: TextView
+    private lateinit var etSearchName: EditText
+    private lateinit var filteredList: ArrayList<TdResult>
 
     @Inject
     lateinit var tvShowViewModelFactory: TVShowViewModelFactory
@@ -78,6 +85,7 @@ class TVAiringToday : Fragment() {
         tvTdRecyclerView = requireView().findViewById(R.id.recyViewTvAiringToday)
         tvErrorMessage = requireView().findViewById(R.id.tvErrorMessage)
         tvProgressBar = requireView().findViewById(R.id.tvProgressBar)
+        etSearchName = requireView().findViewById(R.id.etSearchName)
 
         tvShowViewModel.loadingState.observe(viewLifecycleOwner, {
             when (it) {
@@ -90,11 +98,16 @@ class TVAiringToday : Fragment() {
 
         tvShowViewModel.todayTVLiveData().observe(viewLifecycleOwner, {
             tvTdAdapter.updateTvTdList(it)
+            val originalList: ArrayList<TdResult> = it as ArrayList<TdResult>
+            Log.i("onViewCreated", originalList[0].name)
+            searchList(originalList)
         })
 
         tvShowViewModel.errorMessage().observe(viewLifecycleOwner, {
             tvErrorMessage.text = it
         })
+
+       // getSearch()
     }
 
     private fun setupRecyclerView() {
@@ -127,7 +140,7 @@ class TVAiringToday : Fragment() {
     }
 
 
-    private fun callToTodFavFragment(){
+    private fun callToTodFavFragment() {
         val directions = TVAiringTodayDirections.actionTVAiringTodayToTodFavFragment()
         findNavController().navigate(directions)
     }
@@ -136,13 +149,13 @@ class TVAiringToday : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu, menu)
-        val searchMenuItem = menu.findItem(R.id.search)
+       /* val searchMenuItem = menu.findItem(R.id.search)
         val searchView: SearchView = searchMenuItem.actionView as SearchView
-        search(searchView)
+        search(searchView)*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.tvFav -> {
                 callToTodFavFragment()
             }
@@ -150,7 +163,13 @@ class TVAiringToday : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun search(searchView: SearchView) {
+      override fun onPrepareOptionsMenu(menu: Menu) {
+          super.onPrepareOptionsMenu(menu)
+          val searchMenu: MenuItem = menu.findItem(R.id.search)
+          searchMenu.isVisible = false
+      }
+
+    /*private fun search(searchView: SearchView) {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 tvTdAdapter.filter.filter(query)
@@ -160,6 +179,47 @@ class TVAiringToday : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 tvTdAdapter.filter.filter(newText)
                 return false
+            }
+        })
+    }*/
+
+    /*private fun getSearch() {
+        tvSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                tvTdAdapter.filter.filter(newText)
+                return false
+            }
+        })
+    }*/
+
+    private fun searchList(tvList: ArrayList<TdResult>) {
+        etSearchName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filteredList = ArrayList()
+                if (p0.toString() != "") {
+                    for (item in tvList) {
+                        if (item.name.toLowerCase(Locale.ROOT).contains(p0.toString().toLowerCase(
+                                Locale.ROOT
+                            )
+                            )
+                        ) {
+                            filteredList.add(item)
+                        }
+                    }
+                    tvTdAdapter.updateTvTdList(filteredList)
+                } else {
+                    tvTdAdapter.updateTvTdList(tvList)
+                }
             }
         })
     }

@@ -26,6 +26,7 @@ class TVCurrentlyAiring : Fragment() {
     private lateinit var tvCurRecyclerView: RecyclerView
     private lateinit var tvProgressBar: ProgressBar
     private lateinit var tvErrorMessage: TextView
+    private lateinit var tvSearch: SearchView
 
     @Inject
     lateinit var tvShowViewModelFactory: TVShowViewModelFactory
@@ -74,6 +75,7 @@ class TVCurrentlyAiring : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        tvSearch = requireView().findViewById(R.id.tv_Cur_search)
         tvCurRecyclerView = requireView().findViewById(R.id.recyViewTvCurAiring)
         tvErrorMessage = requireView().findViewById(R.id.tvErrorMessage)
         tvProgressBar = requireView().findViewById(R.id.tvProgressBar)
@@ -94,6 +96,8 @@ class TVCurrentlyAiring : Fragment() {
         tvShowViewModel.errorMessage().observe(viewLifecycleOwner, {
             tvErrorMessage.text = it
         })
+
+        getSearch()
     }
 
     private fun setupRecyclerView() {
@@ -133,9 +137,9 @@ class TVCurrentlyAiring : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu, menu)
-        val searchMenuItem = menu.findItem(R.id.search)
+        /*val searchMenuItem = menu.findItem(R.id.search)
         val searchView: SearchView = searchMenuItem.actionView as SearchView
-        search(searchView)
+        search(searchView)*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -148,10 +152,29 @@ class TVCurrentlyAiring : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun search(searchView: SearchView) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        val searchMenu: MenuItem = menu.findItem(R.id.search)
+        searchMenu.isVisible = false
+    }
+
+   /* private fun search(searchView: SearchView) {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 tvCurAdapter.filter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                tvCurAdapter.filter.filter(newText)
+                return false
+            }
+        })
+    }*/
+
+    private fun getSearch(){
+        tvSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
