@@ -1,7 +1,9 @@
 package com.example.themoviedatabaseapp.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
@@ -79,6 +81,16 @@ class TVCurrentlyAiring : Fragment() {
         tvCurRecyclerView = requireView().findViewById(R.id.recyViewTvCurAiring)
         tvErrorMessage = requireView().findViewById(R.id.tvErrorMessage)
         tvProgressBar = requireView().findViewById(R.id.tvProgressBar)
+
+        val searchIcon = tvSearch.findViewById<ImageView>(R.id.search_mag_icon)
+        searchIcon.setColorFilter(Color.WHITE)
+
+        val cancelIcon = tvSearch.findViewById<ImageView>(R.id.search_close_btn)
+        cancelIcon.setColorFilter(Color.WHITE)
+
+        val textView = tvSearch.findViewById<TextView>(R.id.search_src_text)
+        textView.setTextColor(Color.WHITE)
+        // If you want to change the color of the cursor, change the 'colorAccent' in colors.xml
 
         tvShowViewModel.loadingState.observe(viewLifecycleOwner, {
             when (it) {
