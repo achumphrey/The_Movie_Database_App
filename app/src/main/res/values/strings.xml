@@ -32,5 +32,21 @@
     <string name="delete_data_from_database">Delete Data From Database?</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
-    <string name="search_here">Search here...</string>
+    <string name="search_here">Search here…</string>
+    <string name="continue_to">Continue to homepage</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="are_you_already_a_member">Are you already a member?</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="i_forgot_my_password">I forgot my password</string>
+    <string name="or">Or</string>
+    <string name="submit_new_password_link">Submit new password link</string>
+    <string name="delete_user">Delete user</string>
+    <string name="logout">Logout</string>
+    <string name="update_password">Update password</string>
+    <string name="update_email">Update email</string>
+    <string name="update_your_email">Update your email</string>
+    <string name="update_your_password">Update your password</string>
 </resources>

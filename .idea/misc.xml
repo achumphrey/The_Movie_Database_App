@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/activity_login.xml" value="0.14010416666666667" />
+        <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/activity_new_password.xml" value="0.14010416666666667" />
+        <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/activity_register.xml" value="0.22" />
+        <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/activity_success.xml" value="0.1" />
         <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/fragment_custom_dialog.xml" value="0.22" />
+        <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/fragment_email_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/fragment_password_dialog.xml" value="0.14010416666666667" />
         <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/fragment_t_v__airing__today.xml" value="0.1" />
         <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/fragment_t_v__currently__airing.xml" value="0.21" />
         <entry key="..\:/Users/Augustine/AndroidStudioProjects/TheMovieDatabaseApp/app/src/main/res/layout/fragment_t_v_details.xml" value="0.14010416666666667" />
