@@ -14,6 +14,7 @@
         android:theme="@style/Theme.TheMovieDatabaseApp">
         <activity
             android:name=".firebase.NewPasswordActivity"
+            android:theme="@style/MyMovieTheme"
             android:exported="true" />
         <activity
             android:name=".firebase.LoginActivity"

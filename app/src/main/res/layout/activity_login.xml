@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/parent_view_style"
-    tools:context=".firebase.LoginActivity">
+    tools:context=".firebase.LoginActivity"
+    style="@style/parent_view_style">
 
     <EditText
         android:id="@+id/et_Email"
