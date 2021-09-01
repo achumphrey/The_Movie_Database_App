@@ -17,4 +17,46 @@
 
     <style name="AppTheme.PopupOverlay"
         parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="edittextInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">16</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:importantForAutofill">no</item>
+    </style>
+
+    <style name="buttonAction">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:background">@color/purple_200</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">#FFFF</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="textview_log_reg">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/design_default_color_primary_variant</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="parent_view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/custom_background</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="page_background">
+        <item name="android:background">@drawable/custom_background</item>
+    </style>
+
 </resources>

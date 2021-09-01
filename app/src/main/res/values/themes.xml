@@ -13,4 +13,11 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="MyMovieTheme" parent="Theme.TheMovieDatabaseApp">
+        <item name="colorPrimary">@color/leafy_green</item>
+        <item name="colorPrimaryVariant">@color/leafy_green_dark</item>
+        <item name="pageBackground">@style/parent_view_style</item>
+
+    </style>
 </resources>

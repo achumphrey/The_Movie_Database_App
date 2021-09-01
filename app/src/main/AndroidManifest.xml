@@ -17,9 +17,11 @@
             android:exported="true" />
         <activity
             android:name=".firebase.LoginActivity"
+            android:theme="@style/MyMovieTheme"
             android:exported="true" />
         <activity
             android:name=".firebase.RegisterActivity"
+            android:theme="@style/MyMovieTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,6 +31,7 @@
         </activity>
         <activity
             android:name=".firebase.SuccessActivity"
+            android:theme="@style/MyMovieTheme"
             android:exported="true"/>
         <activity
             android:name=".MainActivity"

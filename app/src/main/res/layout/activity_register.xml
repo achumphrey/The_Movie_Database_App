@@ -3,44 +3,38 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFF"
-    android:gravity="center"
-    tools:context=".firebase.RegisterActivity">
+    tools:context=".firebase.RegisterActivity"
+    style="@style/parent_view_style">
 
     <EditText
         android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:ems="16"
         android:hint="@string/email"
-        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/edittextInput"
+        android:autofillHints="emailAddress" />
 
     <EditText
         android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:ems="16"
         android:hint="@string/password"
-        android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        style="@style/edittextInput"
+        android:autofillHints="password" />
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:background="@color/purple_200"
+        android:textSize="20sp"
+        android:padding="5dp"
         android:text="@string/sign_up"
         android:textColor="#FFFF"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,18 +43,12 @@
 
     <TextView
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:text="@string/are_you_already_a_member"
-        android:textAllCaps="false"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnRegister" />
+        app:layout_constraintTop_toBottomOf="@id/btnRegister"
+        style="@style/textview_log_reg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

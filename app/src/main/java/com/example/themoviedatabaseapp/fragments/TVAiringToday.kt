@@ -41,7 +41,7 @@ class TVAiringToday : Fragment() {
 
     private val tvTdClickListener: TVTodayListener = object : TVTodayListener {
 
-        override fun TVTodItemClickListener(tvItem: TdResult) {
+        override fun tvTodItemClickListener(tvItem: TdResult) {
             callDetailsFragment(tvItem.id)
         }
     }

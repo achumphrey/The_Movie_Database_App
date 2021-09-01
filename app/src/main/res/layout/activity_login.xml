@@ -3,103 +3,68 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFF"
-    android:gravity="center"
+    style="@style/parent_view_style"
     tools:context=".firebase.LoginActivity">
 
     <EditText
         android:id="@+id/et_Email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:ems="16"
         android:hint="@string/email"
-        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/edittextInput"
+        android:autofillHints="emailAddress" />
 
     <EditText
         android:id="@+id/et_Password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:ems="10"
         android:hint="@string/password"
-        android:importantForAutofill="no"
         android:inputType="textPassword"
-        android:maxEms="16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_Email" />
+        app:layout_constraintTop_toBottomOf="@id/et_Email"
+        style="@style/edittextInput"
+        android:autofillHints="password" />
 
     <Button
         android:id="@+id/btn_Login"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/purple_200"
         android:text="@string/login"
-        android:textAllCaps="true"
-        android:textColor="#FFFF"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_Password"
-        tools:ignore="ButtonStyle" />
+        style="@style/buttonAction" />
 
     <Button
         android:id="@+id/btn_Register"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/purple_200"
         android:text="@string/register"
-        android:textColor="#FFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toEndOf="@id/btn_Login"
         app:layout_constraintTop_toBottomOf="@id/et_Password"
-        tools:ignore="ButtonStyle"
-        android:textStyle="bold" />
+        style="@style/buttonAction" />
 
     <TextView
         android:id="@+id/btn_ForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:text="@string/i_forgot_my_password"
-        android:textAllCaps="false"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_Login" />
+        app:layout_constraintTop_toBottomOf="@id/btn_Login"
+        style="@style/textview_log_reg" />
 
     <TextView
         android:id="@+id/tvOr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:gravity="center"
         android:text="@string/or"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_ForgotPassword" />
+        app:layout_constraintTop_toBottomOf="@id/btn_ForgotPassword"
+        style="@style/textview_log_reg" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"

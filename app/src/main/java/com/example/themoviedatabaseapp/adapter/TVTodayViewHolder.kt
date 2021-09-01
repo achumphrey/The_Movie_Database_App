@@ -23,7 +23,7 @@ class TVTodayViewHolder(private val binding: TvTdShowItemListBinding)
             .into(binding.tdTvshowImage)
 
         itemView.setOnClickListener{
-            listener.TVTodItemClickListener(tvTdItem)
+            listener.tvTodItemClickListener(tvTdItem)
         }
 
         if(SharedPreference().checkIfInSharePref(tvTdItem))
