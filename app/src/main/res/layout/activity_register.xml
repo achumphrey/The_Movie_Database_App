@@ -35,6 +35,7 @@
         android:layout_marginTop="30dp"
         android:textSize="20sp"
         android:padding="5dp"
+        style="?buttonCustomStyle"
         android:text="@string/sign_up"
         android:textColor="#FFFF"
         app:layout_constraintEnd_toEndOf="parent"

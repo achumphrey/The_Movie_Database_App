@@ -18,6 +18,7 @@
         <item name="colorPrimary">@color/leafy_green</item>
         <item name="colorPrimaryVariant">@color/leafy_green_dark</item>
         <item name="pageBackground">@style/parent_view_style</item>
+        <item name="buttonCustomStyle">@style/buttonAction</item>
 
     </style>
 </resources>
