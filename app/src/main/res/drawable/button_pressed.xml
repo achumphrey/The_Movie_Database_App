@@ -2,11 +2,15 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <gradient
+    <stroke android:width="4dp" android:color="#f705c7" />
+    <solid android:color="#118C4E" />
+    <!--<gradient
         android:angle="270"
         android:centerColor="#FF207FB9"
         android:endColor="#FF0060B8"
         android:startColor="#FF66CFE6"/>
+-->
+    <!--gradient will not work if solid element is used-->
 
     <padding
         android:top="8dp"

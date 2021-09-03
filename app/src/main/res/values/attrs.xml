@@ -2,4 +2,5 @@
 <resources>
     <attr name="pageBackground" format="reference"/>
     <attr name="buttonCustomStyle" format="reference"/>
+    <attr name="buttonBackground" format="reference"/>
 </resources>

@@ -1,70 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".firebase.LoginActivity"
-    style="@style/parent_view_style">
+    style="@style/parent_view_style"
+    tools:context=".firebase.LoginActivity">
 
     <EditText
         android:id="@+id/et_Email"
+        style="@style/edittextInput"
         android:layout_marginTop="100dp"
+        android:autofillHints="emailAddress"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/edittextInput"
-        android:autofillHints="emailAddress" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/et_Password"
+        style="@style/edittextInput"
         android:layout_marginTop="15dp"
+        android:autofillHints="password"
         android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_Email"
-        style="@style/edittextInput"
-        android:autofillHints="password" />
+        app:layout_constraintTop_toBottomOf="@id/et_Email" />
 
     <Button
         android:id="@+id/btn_Login"
+        style="@style/buttonAction"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
         android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_Password"
-        style="@style/buttonAction" />
+        app:layout_constraintTop_toBottomOf="@id/et_Password" />
 
     <Button
         android:id="@+id/btn_Register"
+        style="@style/buttonAction"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toEndOf="@id/btn_Login"
-        app:layout_constraintTop_toBottomOf="@id/et_Password"
-        style="@style/buttonAction" />
+        app:layout_constraintTop_toBottomOf="@id/et_Password" />
 
     <TextView
         android:id="@+id/btn_ForgotPassword"
+        style="@style/textview_log_reg"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:text="@string/i_forgot_my_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_Login"
-        style="@style/textview_log_reg" />
+        app:layout_constraintTop_toBottomOf="@id/btn_Login" />
 
     <TextView
         android:id="@+id/tvOr"
+        style="@style/textview_log_reg"
         android:layout_margin="20dp"
         android:text="@string/or"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_ForgotPassword"
-        style="@style/textview_log_reg" />
+        app:layout_constraintTop_toBottomOf="@id/btn_ForgotPassword" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
