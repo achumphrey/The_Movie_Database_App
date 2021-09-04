@@ -7,37 +7,28 @@
     android:padding="12dp">
 
     <TextView
-        android:id="@+id/tvDialogHeading"
-        android:text="@string/update_your_email"
+        android:id="@+id/tvDeleteDialog"
+        android:text="@string/delete_user_dialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         style="@style/textview_dialog_frag" />
 
-    <EditText
-        android:id="@+id/etDialogUpdateEmail"
-        android:hint="@string/email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDialogHeading"
-        style="@style/edittext_dialog_frag"
-        android:importantForAutofill="no" />
-
     <Button
-        android:id="@+id/btnDialogUpdateEmail"
+        android:id="@+id/btnDeleteDialogYes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:textColor="#ffffff"
         android:backgroundTint="@color/purple_700"
-        android:text="@string/update_email"
+        android:text="@string/yes_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDialogUpdateEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDeleteDialog" />
 
     <Button
-        android:id="@+id/btnDialogCancelUpdate"
+        android:id="@+id/btnDelDialogCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -47,6 +38,6 @@
         android:backgroundTint="@color/design_default_color_error"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDialogUpdateEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDeleteDialog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

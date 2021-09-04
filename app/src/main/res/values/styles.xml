@@ -22,8 +22,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ems">16</item>
+        <item name="android:padding">10dp</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:importantForAutofill">no</item>
+        <item name="android:background">@drawable/et_style</item>
     </style>
 
     <style name="buttonAction">
@@ -52,6 +54,25 @@
 
     <style name="button_style">
         <item name="android:background">@drawable/button_custom_selector</item>
+    </style>
+
+    <style name="textview_dialog_frag">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/holo_blue_dark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="edittext_dialog_frag">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

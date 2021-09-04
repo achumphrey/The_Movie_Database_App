@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import com.example.themoviedatabaseapp.MainActivity
 import com.example.themoviedatabaseapp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -56,39 +55,12 @@ class SuccessActivity : AppCompatActivity() {
         txtEmail.text = String.format("Hi " + user?.email)
 
         btnDeleteUser.setOnClickListener {
-            user?.delete()?.addOnCompleteListener {task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(
-                        applicationContext,
-                        "User Deleted",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    startActivity(
-                        Intent(
-                            applicationContext,
-                            RegisterActivity::class.java
-                        )
-                    )
-                    finish()
-                }else{
-                    Toast.makeText(
-                        applicationContext,
-                        "Nothing to delete",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+        //    DeleteUserDialogFrag().show(supportFragmentManager, DeleteUserDialogFrag.TAG)
+            deleteUser()
         }
 
         btnLogout.setOnClickListener {
-            firebaseAuth.signOut()
-            startActivity(
-                Intent(
-                    applicationContext,
-                    LoginActivity::class.java
-                )
-            )
-            finish()
+            LogoutUserDialogFrag().show(supportFragmentManager, LogoutUserDialogFrag.TAG)
         }
 
         updateEmail.setOnClickListener {
@@ -97,6 +69,21 @@ class SuccessActivity : AppCompatActivity() {
 
         updatePassword.setOnClickListener {
             PasswordDialogFrag().show(supportFragmentManager, PasswordDialogFrag.TAG)
+        }
+    }
+
+    private fun deleteUser(){
+        val user: FirebaseUser? = firebaseAuth.currentUser
+        user?.delete()?.addOnCompleteListener {task ->
+            if (task.isSuccessful) {
+                startActivity(
+                    Intent(
+                        applicationContext,
+                        RegisterActivity::class.java
+                    )
+                )
+                finish()
+            }
         }
     }
 

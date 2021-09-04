@@ -49,4 +49,8 @@
     <string name="update_email">Update email</string>
     <string name="update_your_email">Update your email</string>
     <string name="update_your_password">Update your password</string>
+    <string name="delete_user_dialog">Are you sure you\n want to delete the user?</string>
+    <string name="yes_delete">Yes, delete</string>
+    <string name="sure_logout">Are you sure\n you want to log out?</string>
+    <string name="yes_log_out">Yes, log out</string>
 </resources>
