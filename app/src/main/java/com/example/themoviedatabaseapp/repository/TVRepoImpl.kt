@@ -1,7 +1,7 @@
 package com.example.themoviedatabaseapp.repository
 
-import com.example.themoviedatabaseapp.MainActivity
 import com.example.themoviedatabaseapp.database.TVShowDatabase
+import com.example.themoviedatabaseapp.di.TVShowApp
 import com.example.themoviedatabaseapp.model.current.CurrentTVShowList
 import com.example.themoviedatabaseapp.model.today.TodayTVShowList
 import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class TVRepoImpl @Inject constructor(private val webServices: WebServices) : TVRepo {
 
-    private val tvDao = TVShowDatabase.getDatabase(MainActivity.getContextOfApplication())?.tvDao()
+    private val tvDao = TVShowDatabase.getDatabase(TVShowApp.getContext())?.tvDao()
 
     override suspend fun getTVCurrent(): CurrentTVShowList {
         return webServices.getCurrentTVList()

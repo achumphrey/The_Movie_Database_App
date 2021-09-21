@@ -2,7 +2,7 @@ package com.example.themoviedatabaseapp.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.themoviedatabaseapp.MainActivity
+import com.example.themoviedatabaseapp.di.TVShowApp
 import com.example.themoviedatabaseapp.model.current.CurResult
 import com.google.gson.Gson
 import java.util.*
@@ -12,7 +12,7 @@ import kotlin.collections.ArrayList
 class CurSharedPreference {
 
     private var curSharePreference: SharedPreferences
-    private var context: Context = MainActivity.getContextOfApplication()
+    private var context: Context = TVShowApp.getContext()
 
     companion object {
         const val PREFS_NAME = "CUR_FAVOURITE_SHOWS"
