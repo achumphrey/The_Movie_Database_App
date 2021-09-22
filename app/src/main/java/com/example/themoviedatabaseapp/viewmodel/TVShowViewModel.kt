@@ -124,7 +124,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         }
     }
 
-    fun getCount(id: Int) {
+    fun getDetails(id: Int) {
         viewModelScope.launch {
             val count: Int
             try {
@@ -165,7 +165,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         }
     }
 
-    fun delShowFromDB(id: Int) {
+    private fun delShowFromDB(id: Int) {
         viewModelScope.launch {
             try {
                 repo.delTVFromDB(id)
@@ -213,11 +213,10 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
                     Log.e(TAG, "Failed to read user", error.toException())
 
                 }
-
             })
     }
     //Remove data from Firebase database
-    fun deleteShowFromFbDb(id: Int) {
+    private fun deleteShowFromFbDb(id: Int) {
         mFirebaseDatabase!!.child(id.toString()).removeValue()
             .addOnSuccessListener {
                 dbDelSuccess?.value = true
@@ -226,6 +225,24 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
                 it.printStackTrace()
                 dbDelSuccess?.value = false
             }
+    }
+
+    fun deleteDetails(id: Int) {
+        viewModelScope.launch {
+            val count: Int
+            try {
+                count = repo.checkIfData(id)
+                Log.i("ViewModel-GetCount-DB", count.toString())
+                if (count > 0) {
+                    delShowFromDB(id)
+                } else {
+                    Log.i("ViewModel-GetCount-DB", count.toString())
+                    deleteShowFromFbDb(id)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     enum class LoadingState {

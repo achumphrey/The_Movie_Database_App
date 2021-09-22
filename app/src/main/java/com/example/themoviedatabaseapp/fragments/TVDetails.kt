@@ -46,7 +46,7 @@ class TVDetails : Fragment() {
         )
             .get(TVShowViewModel::class.java)
 
-        tvShowViewModel.getCount(tvId)
+        tvShowViewModel.getDetails(tvId)
     }
 
     override fun onCreateView(

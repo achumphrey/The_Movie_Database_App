@@ -59,8 +59,7 @@ class TVDetailsDialogFragment: DialogFragment() {
         val btnPositive: Button = view.findViewById(R.id.btnPositive)
         val btnNegative: Button = view.findViewById(R.id.btnNegative)
         btnPositive.setOnClickListener {
-            tvShowViewModel.delShowFromDB(tvId as Int)
-            //tvShowViewModel.deleteShowFromFbDb (tvId as Int)
+            tvShowViewModel.deleteDetails(tvId as Int)
             callReset()
             dismiss()
         }
