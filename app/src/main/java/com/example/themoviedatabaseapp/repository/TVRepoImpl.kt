@@ -33,7 +33,7 @@ class TVRepoImpl @Inject constructor(private val webServices: WebServices) : TVR
         return tvDao!!.getTvShow(id)
     }
 
-    override suspend fun delTVFromDB(id: Int) {
+    override suspend fun delTVFromDB(id: Int): Int {
         return tvDao!!.delTvShow(id)
     }
 

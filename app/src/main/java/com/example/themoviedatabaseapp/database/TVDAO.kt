@@ -16,7 +16,7 @@ interface TVDAO {
     suspend fun getTvShow(id: Int): TVShowDetails
 
     @Query("delete from tvShow where id = :id")
-    suspend fun delTvShow(id: Int)
+    suspend fun delTvShow(id: Int): Int
 
     @Query("select COUNT() from tvShow where id = :id")
     suspend fun count(id: Int): Int

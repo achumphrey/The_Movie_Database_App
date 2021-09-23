@@ -105,6 +105,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
             } else {
                 loadingState.value = LoadingState.SUCCESS
                 showTVDetails.value = tvDetails
+                Log.i("ViewModel-Details-From-Network", tvDetails.name.toString())
                 addShowToDB(tvDetails)
                 addTvShowToFbDb(tvDetails)
             }
@@ -115,7 +116,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         viewModelScope.launch {
             try {
                 repo.addTVToDB(tvShow)
-                Log.i("ViewModel", tvShow.name!!)
+                Log.i("ViewModel-Added-to-DB", tvShow.name!!)
                 dBAddSuccess?.value = true
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -129,11 +130,11 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
             val count: Int
             try {
                 count = repo.checkIfData(id)
-                Log.i("ViewModel-GetCount", count.toString())
                 if (count > 0) {
                     getShowFromDB(id)
+                    Log.i("ViewModel-GetCount-Details", count.toString())
                 } else {
-                    //fetchTVDetails(id)
+                    Log.i("ViewModel-GetCount-Details", count.toString())
                     getTvShowFromFbDb(id)
                 }
             } catch (e: Exception) {
@@ -156,6 +157,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
                 tvShowDetails != null -> {
                     showTVDetails.value = tvShowDetails
                     loadingState.value = LoadingState.SUCCESS
+                    Log.i("ViewModel-Details-From-DB", tvShowDetails.name.toString())
                 }
                 else -> {
                     errorMessage.value = "No Data Found In DB"
@@ -167,9 +169,11 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
 
     private fun delShowFromDB(id: Int) {
         viewModelScope.launch {
+            var numRow = 0
             try {
-                repo.delTVFromDB(id)
+                numRow = repo.delTVFromDB(id)
                 dbDelSuccess?.value = true
+                Log.i("ViewModel-GetCount-Delete-DB", numRow.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
                 dbDelSuccess?.value = false
@@ -184,7 +188,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
         mFirebaseDatabase!!.child(tvShow.id.toString()).setValue(tvShow)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.i("ViewModelDB", tvShow.name!!)
+                    Log.i("ViewModel-Added-to-FbDB", tvShow.name!!)
                     dBAddSuccess?.value = true
                 } else {
                     dBAddSuccess?.value = false
@@ -211,15 +215,16 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
                     loadingState.value = LoadingState.ERROR
                     //Failed to read value
                     Log.e(TAG, "Failed to read user", error.toException())
-
                 }
             })
     }
+
     //Remove data from Firebase database
     private fun deleteShowFromFbDb(id: Int) {
         mFirebaseDatabase!!.child(id.toString()).removeValue()
             .addOnSuccessListener {
                 dbDelSuccess?.value = true
+                Log.i("ViewModel-GetCount-Delete-FbDB", id.toString())
 
             }.addOnFailureListener {
                 it.printStackTrace()
@@ -232,11 +237,9 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
             val count: Int
             try {
                 count = repo.checkIfData(id)
-                Log.i("ViewModel-GetCount-DB", count.toString())
                 if (count > 0) {
                     delShowFromDB(id)
                 } else {
-                    Log.i("ViewModel-GetCount-DB", count.toString())
                     deleteShowFromFbDb(id)
                 }
             } catch (e: Exception) {

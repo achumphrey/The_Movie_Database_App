@@ -11,6 +11,6 @@ interface TVRepo {
     suspend fun getTVDetail(id: Int): TVShowDetails
     suspend fun addTVToDB(tvShow: TVShowDetails)
     suspend fun getTVFromDB(id: Int): TVShowDetails
-    suspend fun delTVFromDB(id: Int)
+    suspend fun delTVFromDB(id: Int): Int
     suspend fun checkIfData(id: Int): Int
 }
