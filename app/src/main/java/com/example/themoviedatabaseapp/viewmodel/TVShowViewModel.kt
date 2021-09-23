@@ -169,7 +169,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
 
     private fun delShowFromDB(id: Int) {
         viewModelScope.launch {
-            var numRow = 0
+            val numRow: Int
             try {
                 numRow = repo.delTVFromDB(id)
                 dbDelSuccess?.value = true
