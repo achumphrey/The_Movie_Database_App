@@ -1,7 +1,7 @@
 package com.example.themoviedatabaseapp.firebase
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -28,37 +28,28 @@ class LoginActivityTest{
 
     @Test
     fun checkIfEmailEditTextIsDisplayed() {
-        onView(withId(R.id.et_Email))
-            .check(matches(isDisplayed()))
+        onView(withId(R.id.et_Email)).check(matches(isDisplayed()))
     }
 
     @Test
     fun checkIfPasswordEditTextIsDisplayed() {
-        onView(withId(R.id.et_Password))
-            .check(matches(isDisplayed()))
+        onView(withId(R.id.et_Password)).check(matches(isDisplayed()))
     }
 
     @Test
     fun checkIfLoginButtonIsDisplayed() {
-        onView(withId(R.id.btn_Login))
-            .check(matches(isDisplayed()))
+        onView(withId(R.id.btn_Login)).check(matches(isDisplayed()))
     }
 
     @Test
     fun checkIfRegisterButtonIsDisplayed() {
-        onView(withId(R.id.btn_Register))
-            .check(matches(isDisplayed()))
+        onView(withId(R.id.btn_Register)).check(matches(isDisplayed()))
     }
 
     @Test
     fun checkIfEmailAndPasswordAreDisplayedInLogin(){
-        onView(withId(R.id.et_Email))
-            .perform(ViewActions.typeText("ben"),
-                ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.et_Password))
-            .perform(ViewActions.typeText("tdd"),
-                ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.btn_Login))
-            .check(matches(isDisplayed())).perform(ViewActions.click())
+        onView(withId(R.id.et_Email)).perform(typeText("ben"), closeSoftKeyboard())
+        onView(withId(R.id.et_Password)).perform(typeText("tdd"), closeSoftKeyboard())
+        onView(withId(R.id.btn_Login)).check(matches(isDisplayed())).perform(click())
     }
 }

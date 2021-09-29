@@ -27,20 +27,17 @@ class RegisterActivityTest{
 
     @Test
     fun checkIfEmailEditTextIsDisplayed() {
-        onView(withId(R.id.etEmail))
-            .check(matches(isDisplayed()))
+        onView(withId(R.id.etEmail)).check(matches(isDisplayed()))
     }
 
     @Test
     fun checkIfPasswordEditTextIsDisplayed() {
-        onView(withId(R.id.etPassword))
-            .check(matches(isDisplayed()))
+        onView(withId(R.id.etPassword)).check(matches(isDisplayed()))
     }
 
     @Test
     fun checkIfRegisterButtonIsDisplayed() {
-        onView(withId(R.id.btnRegister))
-            .check(matches(isDisplayed()))
+        onView(withId(R.id.btnRegister)).check(matches(isDisplayed()))
     }
 
     @Test
