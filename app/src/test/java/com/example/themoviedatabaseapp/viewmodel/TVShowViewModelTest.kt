@@ -11,8 +11,8 @@ import com.example.themoviedatabaseapp.repository.TVRepo
 import com.example.themoviedatabaseapp.util.TestCoroutineRule
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Before
 import org.junit.Rule
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
@@ -40,16 +40,15 @@ class TVShowViewModelTest {
     private val showCurTVListObserver: Observer<List<CurResult>> = mock()
     private val errorMessageObserver: Observer<String> = mock()
     private val loadingStateObserver: Observer<TVShowViewModel.LoadingState> = mock()
-    private lateinit var curTvshow: CurrentTVShowList
-    private lateinit var tdTvshow: TodayTVShowList
+    private lateinit var curTvShow: CurrentTVShowList
+    private lateinit var tdTvShow: TodayTVShowList
     private var tdResultList = mutableListOf<TdResult>()
     private var curResultList = mutableListOf<CurResult>()
-    private val tvRepo: TVRepo = mock()
 
-    /*@Mock //creates mock objects
+    @Mock //creates mock objects
     private lateinit var tvRepo: TVRepo
-*/
-    @Before
+
+    @BeforeEach
     fun setUp() {
         MockitoAnnotations.openMocks(this) //triggers the initialization of the @Mock annotated fields
         tvShowViewModel = TVShowViewModel(tvRepo)
@@ -60,17 +59,15 @@ class TVShowViewModelTest {
         tvShowViewModel.errorMessage().observeForever(errorMessageObserver)
         tdResultList.add(TdResult("any", 11, "any", "any", 0.2))
         curResultList.add(CurResult("any", 12, "any", "any", 0.1))
-        curTvshow = CurrentTVShowList(curResultList)
-        tdTvshow = TodayTVShowList(tdResultList)
+        curTvShow = CurrentTVShowList(curResultList)
+        tdTvShow = TodayTVShowList(tdResultList)
     }
 
     @Test
-    fun fetchCurTv_ReturnData_WithSuccess() {
+    suspend fun fetchCurTv_ReturnData_WithSuccess() {
         testCoroutineRule.runBlockingTest {
             //run the mocked the dependency to return the success with a list.
-            curTvshow = CurrentTVShowList(curResultList)
-            tvShowViewModel = TVShowViewModel(tvRepo)
-            doReturn(curTvshow).`when`(tvRepo).getTVCurrent()
+            doReturn(curTvShow).`when`(tvRepo).getTVCurrent()
 
             tvShowViewModel.tvCurrentFromViewModel() // Then, we fetch...
 
@@ -86,7 +83,7 @@ class TVShowViewModelTest {
     @Test
     suspend fun fetchTdTv_ReturnData_WithSuccess() {
         testCoroutineRule.runBlockingTest {
-            doReturn(tdTvshow).`when`(tvRepo).getTVToday()
+            doReturn(tdTvShow).`when`(tvRepo).getTVToday()
             tvShowViewModel.tvTodayFromViewModel()
 
             verify(tvRepo, atLeast(1)).getTVToday()
