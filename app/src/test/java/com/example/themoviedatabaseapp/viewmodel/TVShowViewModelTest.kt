@@ -13,7 +13,7 @@ import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -44,10 +44,11 @@ class TVShowViewModelTest {
     private lateinit var tdTvshow: TodayTVShowList
     private var tdResultList = mutableListOf<TdResult>()
     private var curResultList = mutableListOf<CurResult>()
+    private val tvRepo: TVRepo = mock()
 
-    @Mock //creates mock objects
+    /*@Mock //creates mock objects
     private lateinit var tvRepo: TVRepo
-
+*/
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this) //triggers the initialization of the @Mock annotated fields
@@ -67,6 +68,8 @@ class TVShowViewModelTest {
     fun fetchCurTv_ReturnData_WithSuccess() {
         testCoroutineRule.runBlockingTest {
             //run the mocked the dependency to return the success with a list.
+            curTvshow = CurrentTVShowList(curResultList)
+            tvShowViewModel = TVShowViewModel(tvRepo)
             doReturn(curTvshow).`when`(tvRepo).getTVCurrent()
 
             tvShowViewModel.tvCurrentFromViewModel() // Then, we fetch...
