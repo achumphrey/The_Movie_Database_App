@@ -14,18 +14,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.junit.jupiter.MockitoExtension
 import java.net.UnknownHostException
 
 @ExperimentalCoroutinesApi
-//@ExtendWith(MockitoExtension::class)
 @RunWith(MockitoJUnitRunner::class) //Tells Mockito to create the mocks based on the @Mock annotation
 class TVShowViewModelTest {
 
@@ -50,13 +46,10 @@ class TVShowViewModelTest {
 
     @Mock //creates mock objects
     private lateinit var tvRepo: TVRepo
-  //  private val tvRepo: TVRepo = mock()
 
     @BeforeEach
     fun setUp() {
-   //     MockitoAnnotations.initMocks(this)
         MockitoAnnotations.openMocks(this) //triggers the initialization of the @Mock annotated fields
-    //    tvRepo = Mockito.mock(TVRepo::class.java)
         tvShowViewModel = TVShowViewModel(tvRepo)
         tvShowViewModel.loadingState.observeForever(loadingStateObserver)
         tvShowViewModel.curTVLiveData().observeForever(showCurTVListObserver)
