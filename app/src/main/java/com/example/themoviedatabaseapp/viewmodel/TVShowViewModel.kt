@@ -1,6 +1,7 @@
 package com.example.themoviedatabaseapp.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,7 @@ import com.example.themoviedatabaseapp.model.current.CurResult
 import com.example.themoviedatabaseapp.model.today.TdResult
 import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.repository.TVRepo
+import com.example.themoviedatabaseapp.utils.TVViewState
 import com.google.firebase.database.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
@@ -21,6 +23,9 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     private val showCurrentTVList: MutableLiveData<List<CurResult>> = MutableLiveData()
     private val errorMessage: MutableLiveData<String> = MutableLiveData()
     val loadingState = MutableLiveData<LoadingState>()
+    private val _viewState = MutableLiveData<TVViewState.ViewState>()
+    val viewState: LiveData<TVViewState.ViewState>
+        get() = _viewState
 
     var dBAddSuccess: MutableLiveData<Boolean>? = MutableLiveData()
     var dbDelSuccess: MutableLiveData<Boolean>? = MutableLiveData()
@@ -32,7 +37,6 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     init {
         //Get instance of FirebaseDatabase
         mFirebaseDatabaseInstances = FirebaseDatabase.getInstance()
-
         //Getting reference to “tvShowDetails” node
         mFirebaseDatabase = mFirebaseDatabaseInstances!!.getReference("tvShowDetails")
     }
@@ -84,7 +88,7 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     }
 
     private fun fetchTVDetails(id: Int) {
-        loadingState.value = LoadingState.LOADING
+        _viewState.value = TVViewState.ViewLoading
         viewModelScope.launch {
             var tvDetails: TVShowDetails? = null
             try {
@@ -93,18 +97,15 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 when (e) {
-                    is UnknownHostException -> errorMessage.value = "No Network!"
-                    else -> errorMessage.value = e.localizedMessage
+                    is UnknownHostException -> _viewState.value = TVViewState.Error("No Network!")
+                    else -> _viewState.value = TVViewState.Error(e.localizedMessage!!)
                 }
-                loadingState.value = LoadingState.ERROR
             }
 
             if (tvDetails == null) {
-                errorMessage.value = "No Data Found"
-                loadingState.value = LoadingState.ERROR
+                _viewState.value = TVViewState.Error("No Data Found")
             } else {
-                loadingState.value = LoadingState.SUCCESS
-                showTVDetails.value = tvDetails
+                _viewState.value = TVViewState.Success(tvDetails)
                 Log.i("ViewModel-Details-From-Network", tvDetails.name.toString())
                 addShowToDB(tvDetails)
                 addTvShowToFbDb(tvDetails)
@@ -144,24 +145,22 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
     }
 
     private fun getShowFromDB(id: Int) {
-        loadingState.value = LoadingState.LOADING
+        _viewState.value = TVViewState.ViewLoading
         viewModelScope.launch {
             var tvShowDetails: TVShowDetails? = null
             try {
                 tvShowDetails = repo.getTVFromDB(id)
             } catch (e: Exception) {
                 e.printStackTrace()
-                loadingState.value = LoadingState.ERROR
+                _viewState.value = TVViewState.Error(e.message.toString())
             }
             when {
                 tvShowDetails != null -> {
-                    showTVDetails.value = tvShowDetails
-                    loadingState.value = LoadingState.SUCCESS
+                    _viewState.value = TVViewState.Success(tvShowDetails)
                     Log.i("ViewModel-Details-From-DB", tvShowDetails.name.toString())
                 }
                 else -> {
-                    errorMessage.value = "No Data Found In DB"
-                    loadingState.value = LoadingState.ERROR
+                    _viewState.value = TVViewState.Error("No Data Found In DB")
                 }
             }
         }
@@ -183,53 +182,71 @@ class TVShowViewModel(private val repo: TVRepo) : ViewModel() {
 
     // Write data to Firebase database
     private fun addTvShowToFbDb(tvShow: TVShowDetails) {
-
-        //Writing data into database using setValue() method
-        mFirebaseDatabase!!.child(tvShow.id.toString()).setValue(tvShow)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.i("ViewModel-Added-to-FbDB", tvShow.name!!)
-                    dBAddSuccess?.value = true
-                } else {
-                    dBAddSuccess?.value = false
-                }
+        viewModelScope.launch {
+            try {
+                //Writing data into database using setValue() method
+                mFirebaseDatabase!!.child(tvShow.id.toString()).setValue(tvShow)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.i("ViewModel-Added-to-FbDB", tvShow.name!!)
+                            dBAddSuccess?.value = true
+                        } else {
+                            dBAddSuccess?.value = false
+                        }
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+        }
     }
 
     // Read data from Firebase database
     private fun getTvShowFromFbDb(id: Int) {
-        mFirebaseDatabase!!.child(id.toString())
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val tvShow: TVShowDetails? = snapshot.getValue(TVShowDetails::class.java)
-                    if (tvShow != null) {
-                        showTVDetails.value = tvShow
-                        loadingState.value = LoadingState.SUCCESS
-                    } else {
-                        fetchTVDetails(id)
-                    }
-                }
+        _viewState.value = TVViewState.ViewLoading
+        viewModelScope.launch {
+            try {
+                mFirebaseDatabase!!.child(id.toString())
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val tvShow: TVShowDetails? =
+                                snapshot.getValue(TVShowDetails::class.java)
+                            if (tvShow != null) {
+                                _viewState.value =
+                                    TVViewState.Success(tvShow)
+                            } else {
+                                fetchTVDetails(id)
+                            }
+                        }
 
-                override fun onCancelled(error: DatabaseError) {
-                    errorMessage.value = "No Data Found In DB"
-                    loadingState.value = LoadingState.ERROR
-                    //Failed to read value
-                    Log.e(TAG, "Failed to read user", error.toException())
-                }
-            })
+                        override fun onCancelled(error: DatabaseError) {
+                            _viewState.value = TVViewState.Error("No Data Found In FbDB")
+                            //Failed to read value
+                            Log.e(TAG, "Failed to read user", error.toException())
+                        }
+                    })
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     //Remove data from Firebase database
     private fun deleteShowFromFbDb(id: Int) {
-        mFirebaseDatabase!!.child(id.toString()).removeValue()
-            .addOnSuccessListener {
-                dbDelSuccess?.value = true
-                Log.i("ViewModel-GetCount-Delete-FbDB", id.toString())
+        viewModelScope.launch {
+            try {
+                mFirebaseDatabase!!.child(id.toString()).removeValue()
+                    .addOnSuccessListener {
+                        dbDelSuccess?.value = true
+                        Log.i("ViewModel-GetCount-Delete-FbDB", id.toString())
 
-            }.addOnFailureListener {
-                it.printStackTrace()
-                dbDelSuccess?.value = false
+                    }.addOnFailureListener {
+                        it.printStackTrace()
+                        dbDelSuccess?.value = false
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+        }
     }
 
     fun deleteDetails(id: Int) {

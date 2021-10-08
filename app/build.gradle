@@ -39,13 +39,9 @@ android {
         dataBinding = true
     }
 
-    /*tasks.named<Test>("test") {
+    /*tasks.withType(Test) {
         useJUnitPlatform()
     }*/
-
-    tasks.withType(Test) {
-        useJUnitPlatform()
-    }
 
     /*tasks.withType(Test) {
         testLogging {
@@ -91,6 +87,10 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.0"
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.0'
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.8.0'
+    testImplementation "org.assertj:assertj-core:3.10.0"
+    testImplementation 'pl.pragmatists:JUnitParams:1.0.5'
+  //  testImplementation "org.jmockit:jmockit:1xy"
 
     //Firebase
     // Import the BoM for the Firebase platform

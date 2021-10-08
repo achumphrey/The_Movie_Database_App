@@ -19,10 +19,12 @@ class TestCoroutineRule: TestRule {
         override fun evaluate() {
             Dispatchers.setMain(testCoroutineDispatcher)
 
-            base.evaluate()
-
-            Dispatchers.resetMain()
-            testCoroutineScope.cleanupTestCoroutines()
+            try {
+                base.evaluate()
+            }finally {
+                Dispatchers.resetMain()
+                testCoroutineScope.cleanupTestCoroutines()
+            }
         }
     }
 

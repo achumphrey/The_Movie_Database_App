@@ -15,7 +15,9 @@ import androidx.navigation.fragment.navArgs
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.databinding.FragmentTVDetailsBinding
 import com.example.themoviedatabaseapp.di.TVShowApp
+import com.example.themoviedatabaseapp.model.tvdetails.TVShowDetails
 import com.example.themoviedatabaseapp.utils.TVDetailsDialogFragment
+import com.example.themoviedatabaseapp.utils.TVViewState
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModel
 import com.example.themoviedatabaseapp.viewmodel.TVShowViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -67,20 +69,28 @@ class TVDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvShowViewModel.tvDetails().observe(viewLifecycleOwner, { tvObject ->
+       /* tvShowViewModel.tvDetails().observe(viewLifecycleOwner, { tvObject ->
             binding.tvDetailObject = tvObject
         })
 
         tvShowViewModel.errorMessage().observe(viewLifecycleOwner, {
             binding.tvDetailsErrorMessage.text = it
-        })
+        })*/
 
-        tvShowViewModel.loadingState.observe(viewLifecycleOwner, {
+        /*tvShowViewModel.loadingState.observe(viewLifecycleOwner, {
             when (it) {
                 TVShowViewModel.LoadingState.LOADING -> displayProgressbar()
                 TVShowViewModel.LoadingState.SUCCESS -> displayTVList()
                 TVShowViewModel.LoadingState.ERROR -> displayErrorMessage()
                 else -> displayErrorMessage()
+            }
+        })*/
+
+        tvShowViewModel.viewState.observe(viewLifecycleOwner, {viewState: TVViewState.ViewState ->
+            when(viewState){
+                is TVViewState.Success -> displayTVList(viewState.tvDetails)
+                is TVViewState.ViewLoading -> displayProgressbar()
+                is TVViewState.Error -> displayErrorMessage(viewState.message)
             }
         })
 
@@ -102,12 +112,14 @@ class TVDetails : Fragment() {
         (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
     }
 
-    private fun displayTVList() {
+    private fun displayTVList(tvObject: TVShowDetails) {
+        binding.tvDetailObject = tvObject
         binding.tvDetailsErrorMessage.visibility = View.GONE
         binding.tvDetailsProgressBar.visibility = View.GONE
     }
 
-    private fun displayErrorMessage() {
+    private fun displayErrorMessage(it: String) {
+        binding.tvDetailsErrorMessage.text = it
         binding.tvDetailsErrorMessage.visibility = View.VISIBLE
         binding.tvDetailsProgressBar.visibility = View.GONE
     }
