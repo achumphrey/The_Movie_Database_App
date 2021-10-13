@@ -93,7 +93,8 @@ class TVShowViewModelTest {
         testCoroutineRule.runBlockingTest {
             //Given the setup below
             //run the mocked the dependency to return success - a list.
-            doReturn(curTvShow).`when`(tvRepo).getTVCurrent()
+           // doReturn(curTvShow).`when`(tvRepo).getTVCurrent()
+            `when`(tvRepo.getTVCurrent()).thenReturn(curTvShow)
 
             //When you run the system/class under test
             tvShowViewModel.tvCurrentFromViewModel() // Then, we fetch...
