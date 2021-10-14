@@ -13,13 +13,11 @@ import com.example.themoviedatabaseapp.repository.TVRepo
 import com.example.themoviedatabaseapp.util.TestCoroutineRule
 import com.example.themoviedatabaseapp.utils.TVViewState
 import com.google.firebase.FirebaseApp
-import com.google.firebase.FirebaseApp.getInstance
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -28,9 +26,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import java.net.UnknownHostException
-import org.mockito.InjectMocks
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.anyInt
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class) //Tells Mockito to create the mocks based on the @Mock annotation
@@ -229,13 +225,28 @@ class TVShowViewModelTest {
 
 
     @Test
-    fun fetchTvDetails_Return_WithSuccess(): Unit =
+    fun fetchTvDetails_Return_WithSuccess_From_Network(): Unit =
         testCoroutineRule.runBlockingTest {
             val tvID = 1211
-            `when`(tvRepo.checkIfData(tvID)).thenReturn(anyInt())
+            `when`(tvRepo.checkIfData(tvID)).thenReturn(0)
             tvShowViewModel.getDetails(tvID)
 
             verify(tvRepo, atLeast(1)).getTVDetail(tvID)
+            verify(tvRepo, atLeast(0)).getTVFromDB(tvID)
+            verify(viewStateObserver, atLeast(1))
+                .onChanged(TVViewState.Success(tvDetails))
+            verify(viewStateObserver, atLeast(0))
+                .onChanged(TVViewState.Error(any()))
+        }
+
+    @Test
+    fun fetchTvDetails_Return_WithSuccess_From_Db(): Unit =
+        testCoroutineRule.runBlockingTest {
+            val tvID = 1211
+            `when`(tvRepo.checkIfData(tvID)).thenReturn(1)
+            tvShowViewModel.getDetails(tvID)
+
+            verify(tvRepo, atLeast(0)).getTVDetail(tvID)
             verify(tvRepo, atLeast(1)).getTVFromDB(tvID)
             verify(viewStateObserver, atLeast(1))
                 .onChanged(TVViewState.Success(tvDetails))
